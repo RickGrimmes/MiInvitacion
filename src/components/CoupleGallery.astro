@@ -1,0 +1,478 @@
+---
+// Galería editorial de fotos para la pareja (Ricardo & Kiara)
+// Paleta Verde & Dorado (#608B56, #A3C184, #DCD888, #E6DEA6 y Dorado #C5A059)
+
+interface PhotoItem {
+  url: string;
+  caption: string;
+  subtitle: string;
+  quote: string;
+  tiltClass: string;
+  thumbTilt: string;
+}
+
+const defaultPhotos: PhotoItem[] = [
+  {
+    url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1400&auto=format&fit=crop&q=85',
+    caption: 'El Comienzo de Todo',
+    subtitle: 'Nuestra Historia',
+    quote: 'Desde el primer instante supimos que nuestros caminos estaban destinados a encontrarse y caminar juntos.',
+    tiltClass: '-rotate-[1.5deg]',
+    thumbTilt: '-rotate-3',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1400&auto=format&fit=crop&q=85',
+    caption: 'La Promesa',
+    subtitle: 'Un Sí Para Siempre',
+    quote: 'Entre risas, sueños compartidos y miradas cómplices, decidimos construir una vida entera tomados de la mano.',
+    tiltClass: 'rotate-[1.5deg]',
+    thumbTilt: 'rotate-2',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=1400&auto=format&fit=crop&q=85',
+    caption: 'Caminando Juntos',
+    subtitle: 'Nuestro Nuevo Capítulo',
+    quote: 'El amor no consiste en mirarse el uno al otro, sino en mirar juntos en la misma dirección.',
+    tiltClass: 'rotate-[1deg]',
+    thumbTilt: '-rotate-2',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1400&auto=format&fit=crop&q=85',
+    caption: 'Por Toda la Eternidad',
+    subtitle: 'Celebrando el Amor',
+    quote: 'Hoy damos el paso más hermoso de nuestras vidas y queremos que seas testigo de nuestra felicidad.',
+    tiltClass: '-rotate-[1.2deg]',
+    thumbTilt: 'rotate-3',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1400&auto=format&fit=crop&q=85',
+    caption: 'Nuestra Complicidad',
+    subtitle: 'Cada Instante Contigo',
+    quote: 'Cada momento a tu lado se convierte en un recuerdo inolvidable que guardamos en el corazón.',
+    tiltClass: '-rotate-[1.4deg]',
+    thumbTilt: '-rotate-2',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=1400&auto=format&fit=crop&q=85',
+    caption: 'Un Mismo Destino',
+    subtitle: 'Hacia el Altar',
+    quote: 'Dos vidas, dos historias y un mismo camino que hoy unimos para siempre.',
+    tiltClass: 'rotate-[1.4deg]',
+    thumbTilt: 'rotate-2',
+  },
+];
+
+// Regla: Las primeras 4 fotografías se muestran en el slider superior;
+// las 6 completas aparecen en el mini álbum físico de abajo y en el visor.
+const sliderPhotos = defaultPhotos.slice(0, 4);
+---
+
+<section class="inv-reveal mt-16">
+  <div class="text-center px-2">
+    <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">
+      Memorias
+    </span>
+    <h2 class="mt-2 font-serif text-3xl sm:text-4xl font-normal text-[#2C3E28]">
+      Nuestra Historia en Fotos
+    </h2>
+    <div class="inv-line-grow mx-auto mt-3.5 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+    <p class="mx-auto mt-4 max-w-md font-serif text-lg sm:text-xl italic leading-relaxed text-[#4A5D45]">
+      "Un recorrido por los momentos que nos trajeron hasta el altar y el amor que hoy celebramos contigo."
+    </p>
+  </div>
+
+  <!-- 1. Carrusel Principal Amplio con Frases (Control Manual Independiente) -->
+  <div class="relative mt-8 -mx-3 sm:mx-0">
+    <!-- Botón Anterior -->
+    <button
+      id="gallery-prev-btn"
+      type="button"
+      aria-label="Foto anterior"
+      class="absolute left-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/70 text-[#E6DEA6] backdrop-blur-xs transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Botón Siguiente -->
+    <button
+      id="gallery-next-btn"
+      type="button"
+      aria-label="Foto siguiente"
+      class="absolute right-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/70 text-[#E6DEA6] backdrop-blur-xs transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <div
+      id="couple-carousel-track"
+      class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-3 sm:px-2 py-2 scroll-smooth"
+    >
+      {sliderPhotos.map((photo, index) => (
+        <div
+          class="group relative flex-none w-[94%] sm:w-[92%] snap-center overflow-hidden rounded-3xl bg-[#2C3E28] shadow-xl ring-2 ring-[#C5A059]/35"
+          data-slide-index={index}
+        >
+          <!-- Imagen amplia (proporción 3:4) -->
+          <div class="aspect-[3/4] w-full overflow-hidden">
+            <img
+              src={photo.url}
+              alt={photo.caption}
+              loading="lazy" decoding="async"
+              class="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+          </div>
+
+          <!-- Degradado inferior en tonos verde bosque oscuro y dorado -->
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1E2B1B]/95 via-[#1E2B1B]/65 to-transparent px-6 pt-20 pb-7 text-white">
+            <span class="block text-xs sm:text-sm font-bold tracking-[0.25em] text-[#DCD888] uppercase">
+              {photo.subtitle}
+            </span>
+            <h3 class="mt-1 font-serif text-2xl sm:text-3xl font-normal tracking-wide text-[#FAF8F0]">
+              {photo.caption}
+            </h3>
+            <div class="mt-3 h-0.5 w-12 bg-[#C5A059]"></div>
+            <p class="mt-3 font-serif text-base sm:text-lg italic leading-relaxed text-[#E6DEA6]">
+              "{photo.quote}"
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Indicadores de posición del carrusel -->
+    <div id="carousel-dots" class="mt-5 flex items-center justify-center gap-2.5">
+      {sliderPhotos.map((_, i) => (
+        <button
+          type="button"
+          class={`h-2.5 rounded-full transition-all duration-500 ${i === 0 ? 'w-9 bg-[#608B56]' : 'w-2.5 bg-[#A3C184]/60'}`}
+          data-dot-index={i}
+          aria-label={`Ir a foto ${i + 1}`}
+        ></button>
+      ))}
+    </div>
+  </div>
+
+  <!-- 2. Mini Álbum de Fotografías Físicas -->
+  <div class="mt-9 px-1">
+    <div class="grid grid-cols-2 gap-4">
+      {defaultPhotos.map((photo, index) => (
+        <button
+          type="button"
+          data-lightbox-open={index}
+          data-photo-url={photo.url}
+          data-photo-alt={photo.caption}
+          aria-label={`Ver fotografía física ${index + 1} en detalle`}
+          class:list={[
+            'album-lightbox-trigger group relative rounded-xl bg-[#FAF8F0] p-2.5 shadow-md ring-1 ring-[#C5A059]/35 transition-all duration-300 hover:rotate-0 hover:-translate-y-1 hover:shadow-xl active:scale-98',
+            photo.tiltClass,
+          ]}
+        >
+          <div class="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-[#E6DEA6]/30">
+            <img
+              src={photo.url}
+              alt={photo.caption}
+              loading="lazy" decoding="async"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Visor de Fotografías Físicas con Fondo Difuminado y Abanico Inferior -->
+<div
+  id="photo-lightbox-modal"
+  class="fixed inset-0 z-[90] hidden flex-col items-center justify-between bg-[#1B2618]/85 backdrop-blur-xl px-4 py-6 opacity-0 transition-opacity duration-300 select-none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mesa de fotografías"
+>
+  <!-- Barra superior sólo con botón de cierre -->
+  <div class="flex w-full max-w-lg items-center justify-end">
+    <button
+      id="lightbox-close-btn"
+      type="button"
+      aria-label="Cerrar vista de fotos"
+      class="flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/40 bg-white/15 text-[#FAF8F0] backdrop-blur-md transition hover:bg-white/25 active:scale-95"
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Fotografía Principal Impresa en el Centro -->
+  <div class="relative my-auto flex w-full max-w-md items-center justify-center py-2">
+    <!-- Botón Foto Anterior -->
+    <button
+      id="lightbox-prev-btn"
+      type="button"
+      aria-label="Fotografía anterior"
+      class="
+        absolute -left-1 sm:-left-4 top-1/2 z-30 -translate-y-1/2
+        flex h-11 w-11 items-center justify-center rounded-full
+        border border-[#E6DEA6]/40 bg-[#2C3E28]/80 text-[#E6DEA6] backdrop-blur-md
+        transition hover:bg-[#2C3E28] active:scale-95
+      "
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Hojas fotográficas detrás para simular el montón de fotos en físico -->
+    <div class="pointer-events-none absolute h-[92%] w-[86%] rotate-3 rounded-2xl bg-[#E6DEA6]/25 shadow-lg"></div>
+    <div class="pointer-events-none absolute h-[92%] w-[86%] -rotate-2 rounded-2xl bg-[#FAF8F0]/40 shadow-lg"></div>
+
+    <!-- Marco físico limpio sin texto debajo -->
+    <div
+      id="lightbox-polaroid-card"
+      class="relative z-20 w-[90%] rounded-2xl bg-[#FAF8F0] p-2.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] ring-2 ring-[#C5A059]/40 transition-all duration-300 scale-95"
+    >
+      <div class="overflow-hidden rounded-xl bg-[#2C3E28]">
+        <img
+          id="lightbox-image"
+          src=""
+          alt=""
+          class="max-h-[60vh] w-full object-cover transition-opacity duration-200"
+        />
+      </div>
+    </div>
+
+    <!-- Botón Foto Siguiente -->
+    <button
+      id="lightbox-next-btn"
+      type="button"
+      aria-label="Fotografía siguiente"
+      class="
+        absolute -right-1 sm:-right-4 top-1/2 z-30 -translate-y-1/2
+        flex h-11 w-11 items-center justify-center rounded-full
+        border border-[#E6DEA6]/40 bg-[#2C3E28]/80 text-[#E6DEA6] backdrop-blur-md
+        transition hover:bg-[#2C3E28] active:scale-95
+      "
+    >
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Abanico / Mesa Inferior con Todas las Demás Fotos en Físico (sin texto) -->
+  <div class="w-full max-w-md pt-2 pb-1">
+    <div class="flex items-center justify-center gap-1.5 sm:gap-2.5 py-2">
+      {defaultPhotos.map((photo, idx) => (
+        <button
+          type="button"
+          data-lightbox-thumb={idx}
+          aria-label={`Cambiar a fotografía ${idx + 1}`}
+          class:list={[
+            'lightbox-physical-thumb group relative h-16 w-12 sm:h-22 sm:w-16 shrink-0 rounded-lg bg-[#FAF8F0] p-1 shadow-xl transition-all duration-300',
+            photo.thumbTilt,
+          ]}
+        >
+          <div class="h-full w-full overflow-hidden rounded-xs bg-gray-200">
+            <img
+              src={photo.url}
+              alt={photo.caption}
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // 1. Lógica exclusiva para el carrusel superior
+  const track = document.getElementById('couple-carousel-track');
+  const dots = document.querySelectorAll('#carousel-dots button');
+  const prevBtn = document.getElementById('gallery-prev-btn');
+  const nextBtn = document.getElementById('gallery-next-btn');
+
+  if (track && dots.length > 0) {
+    const slides = track.querySelectorAll('[data-slide-index]');
+    const totalSlides = slides.length;
+    let currentIdx = 0;
+
+    function updateDots(activeIdx) {
+      dots.forEach((dot, idx) => {
+        if (idx === activeIdx) {
+          dot.className = 'h-2.5 rounded-full transition-all duration-500 w-9 bg-[#608B56]';
+        } else {
+          dot.className = 'h-2.5 rounded-full transition-all duration-500 w-2.5 bg-[#A3C184]/60';
+        }
+      });
+    }
+
+    function goToSlide(index) {
+      if (!track || totalSlides === 0) return;
+      currentIdx = (index + totalSlides) % totalSlides;
+      const targetSlide = slides[currentIdx];
+      if (targetSlide) {
+        const slideLeft = targetSlide.offsetLeft - (track.clientWidth - targetSlide.clientWidth) / 2;
+        track.scrollTo({ left: slideLeft, behavior: 'smooth' });
+        updateDots(currentIdx);
+      }
+    }
+
+    track.addEventListener(
+      'scroll',
+      () => {
+        const scrollCenter = track.scrollLeft + track.clientWidth / 2;
+        let closestIndex = 0;
+        let minDistance = Infinity;
+
+        slides.forEach((slide, idx) => {
+          const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
+          const dist = Math.abs(scrollCenter - slideCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestIndex = idx;
+          }
+        });
+
+        currentIdx = closestIndex;
+        updateDots(currentIdx);
+      },
+      { passive: true }
+    );
+
+    prevBtn?.addEventListener('click', () => {
+      goToSlide(currentIdx - 1);
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      goToSlide(currentIdx + 1);
+    });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        goToSlide(idx);
+      });
+    });
+  }
+
+  // 2. Lógica para el visor de fotografías físicas con abanico inferior
+  const lightboxTriggers = document.querySelectorAll('.album-lightbox-trigger');
+  const lightboxModal = document.getElementById('photo-lightbox-modal');
+  const lightboxCard = document.getElementById('lightbox-polaroid-card');
+  const lightboxImg = document.getElementById('lightbox-image');
+  const lightboxClose = document.getElementById('lightbox-close-btn');
+  const lightboxPrev = document.getElementById('lightbox-prev-btn');
+  const lightboxNext = document.getElementById('lightbox-next-btn');
+  const physicalThumbs = document.querySelectorAll('.lightbox-physical-thumb');
+
+  if (lightboxModal && lightboxImg && lightboxTriggers.length > 0) {
+    const photosData = Array.from(lightboxTriggers).map((btn) => ({
+      url: btn.getAttribute('data-photo-url') || '',
+      alt: btn.getAttribute('data-photo-alt') || '',
+    }));
+
+    const cardTilts = ['-rotate-1', 'rotate-1', '-rotate-[0.8deg]', 'rotate-[0.8deg]'];
+    let currentLightboxIdx = 0;
+
+    function updatePhysicalThumbs(activeIdx) {
+      physicalThumbs.forEach((thumb, idx) => {
+        if (idx === activeIdx) {
+          thumb.classList.add('-translate-y-3', 'scale-110', 'ring-2', 'ring-[#DCD888]', 'z-20', 'opacity-100');
+          thumb.classList.remove('opacity-60', 'hover:opacity-95');
+        } else {
+          thumb.classList.remove('-translate-y-3', 'scale-110', 'ring-2', 'ring-[#DCD888]', 'z-20', 'opacity-100');
+          thumb.classList.add('opacity-60', 'hover:opacity-95');
+        }
+      });
+    }
+
+    function showLightboxPhoto(index) {
+      currentLightboxIdx = (index + photosData.length) % photosData.length;
+      const item = photosData[currentLightboxIdx];
+
+      if (item && lightboxImg) {
+        if (lightboxCard) {
+          lightboxCard.classList.remove('-rotate-1', 'rotate-1', '-rotate-[0.8deg]', 'rotate-[0.8deg]');
+          lightboxCard.classList.add(cardTilts[currentLightboxIdx % cardTilts.length]);
+        }
+        lightboxImg.style.opacity = '0.35';
+        setTimeout(() => {
+          lightboxImg.setAttribute('src', item.url);
+          lightboxImg.setAttribute('alt', item.alt);
+          lightboxImg.style.opacity = '1';
+        }, 90);
+      }
+
+      updatePhysicalThumbs(currentLightboxIdx);
+    }
+
+    function openLightbox(index) {
+      showLightboxPhoto(index);
+      lightboxModal.classList.remove('hidden');
+      lightboxModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        lightboxModal.classList.remove('opacity-0');
+        lightboxModal.classList.add('opacity-100');
+        lightboxCard?.classList.remove('scale-95');
+        lightboxCard?.classList.add('scale-100');
+      });
+    }
+
+    function closeLightbox() {
+      lightboxModal.classList.remove('opacity-100');
+      lightboxModal.classList.add('opacity-0');
+      lightboxCard?.classList.remove('scale-100');
+      lightboxCard?.classList.add('scale-95');
+      document.body.style.overflow = '';
+
+      setTimeout(() => {
+        lightboxModal.classList.remove('flex');
+        lightboxModal.classList.add('hidden');
+      }, 280);
+    }
+
+    lightboxTriggers.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        openLightbox(idx);
+      });
+    });
+
+    physicalThumbs.forEach((thumb, idx) => {
+      thumb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showLightboxPhoto(idx);
+      });
+    });
+
+    lightboxClose?.addEventListener('click', closeLightbox);
+
+    lightboxPrev?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showLightboxPhoto(currentLightboxIdx - 1);
+    });
+
+    lightboxNext?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showLightboxPhoto(currentLightboxIdx + 1);
+    });
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightboxModal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showLightboxPhoto(currentLightboxIdx - 1);
+      if (e.key === 'ArrowRight') showLightboxPhoto(currentLightboxIdx + 1);
+    });
+  }
+</script>

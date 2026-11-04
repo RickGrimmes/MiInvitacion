@@ -1,0 +1,1166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MusicPlayerWidget from '../components/MusicPlayerWidget.astro';
+import CoupleGallery from '../components/CoupleGallery.astro';
+
+
+const isRicardoKiara = true;
+const event = { dress_code: 'Rigurosa Etiqueta / Formal' };
+
+const coupleNames = isRicardoKiara
+  ? {
+      groom: 'MARTÍN RICARDO CABELLO RODRÍGUEZ',
+      bride: 'KIARA DELGADILLO TORRES',
+      shortTitle: 'Ricardo & Kiara',
+      formalDate: 'Viernes, 2 de Abril de 2027',
+      targetIsoDate: '2027-04-02T17:30:00',
+    }
+  : {
+      groom: 'CARLOS MORALES',
+      bride: 'SOFÍA GARZA',
+      shortTitle: event.title,
+      formalDate: 'Domingo, 25 de Octubre de 2026',
+      targetIsoDate: event.event_date || '2026-10-25T18:00:00',
+    };
+
+// Mensajes y contactos directos para confirmar con Ricardo o con Kiara
+const waTextRicardo = encodeURIComponent(
+  'Hola Ricardo, te escribo por la invitación de su boda para confirmar mi asistencia.'
+);
+const waTextKiara = encodeURIComponent(
+  'Hola Kiara, te escribo por la invitación de su boda para confirmar mi asistencia.'
+);
+const phoneRicardo = '528711234567';
+const phoneKiara = '528719876543';
+const waUrlRicardo = `https://wa.me/${phoneRicardo}?text=${waTextRicardo}`;
+const waUrlKiara = `https://wa.me/${phoneKiara}?text=${waTextKiara}`;
+
+// Enlace directo a Google Calendar (Viernes 2 de Abril de 2027, 17:00 hrs a 02:00 hrs)
+const gcalTitle = encodeURIComponent(`Boda de ${coupleNames.shortTitle}`);
+const gcalDetails = encodeURIComponent(
+  `Ceremonia Religiosa (5:30 PM): Parroquia de San Pedro Apóstol, Calzada Mónaco 485, Torreón.\nRecepción (9:00 PM): Centro de Convenciones San Ángel, Av. Lerdo de Tejada, Torreón.`
+);
+const gcalLocation = encodeURIComponent('Parroquia de San Pedro Apóstol, Calzada Mónaco 485, Torreón, Coahuila');
+const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${gcalTitle}&dates=20270402T173000/20270403T020000&details=${gcalDetails}&location=${gcalLocation}&ctz=America/Monterrey`;
+
+// Fotografías principales de portada en arco (3 fotos con difuminado automático)
+const heroSlides = [
+  {
+    src: '/images/hero1.jpeg',
+    alt: 'Ricardo y Kiara — Portada 1',
+  },
+  {
+    src: '/images/hero2.jpeg',
+    alt: 'Ricardo y Kiara — Portada 2',
+  },
+  {
+    src: '/images/hero3.jpeg',
+    alt: 'Ricardo y Kiara — Portada 3',
+  },
+];
+
+// Itinerario
+const itineraryList = isRicardoKiara
+  ? [
+      { time: '5:30 PM', title: 'Ceremonia Religiosa', desc: 'Solemne misa en Parroquia de San Pedro Apóstol' },
+      { time: '9:00 PM', title: 'Recepción y Fiesta', desc: 'Bienvenida y celebración en Centro de Convenciones San Ángel' },
+      { time: '10:00 PM', title: 'Banquete y Cena', desc: 'Cena formal en honor a los novios' },
+      { time: '2:00 AM', title: 'Fin de la Celebración', desc: 'Despedida y cierre de una noche inolvidable' },
+    ]
+  : [
+      { time: '18:00 hrs', title: 'Ceremonia Religiosa', desc: 'Capilla Principal' },
+      { time: '19:30 hrs', title: 'Cóctel de Bienvenida', desc: 'Jardín Central' },
+      { time: '21:00 hrs', title: 'Recepción y Cena', desc: 'Salón Principal' },
+      { time: '23:00 hrs', title: 'Fiesta', desc: 'Celebración' },
+    ];
+---
+
+<Layout title={`${coupleNames.shortTitle} — Invitación de Boda`} theme="editorial">
+
+  <!-- Fondo general con matiz crema cálido de la paleta -->
+  <div class="min-h-screen bg-[#FAF8F0] text-[#233120]">
+    <main class="mx-auto max-w-lg pb-24">
+      
+      <!-- Portada Fotográfica 100% de ancho, más larga, tocando el techo y con forma de arco arriba -->
+      <div
+        class="relative h-[580px] sm:h-[640px] w-full overflow-hidden rounded-t-full"
+        style="-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%); mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%);"
+      >
+        {heroSlides.map((slide, index) => (
+          <img
+            src={slide.src}
+            alt={slide.alt}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'low'}
+            decoding="async"
+            data-hero-slide={index}
+            class:list={[
+              'hero-crossfade-slide absolute inset-x-0 top-0 h-[calc(100%-16px)] w-full object-cover object-center transition-all duration-[1600ms] ease-in-out',
+              index === 0 ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0',
+            ]}
+          />
+        ))}
+      </div>
+
+      <div class="px-5">
+      <!-- Hero Editorial de Alta Gama -->
+      <header class="inv-reveal relative z-30 mt-2 text-center">
+        <span class="block text-sm sm:text-base font-bold tracking-[0.35em] text-[#608B56] uppercase">
+          Nuestra Boda
+        </span>
+
+        <!-- Nombres de los Novios -->
+        <div class="mt-6 space-y-3">
+          <h1 class="font-serif text-3xl font-normal tracking-wide text-[#233120] uppercase sm:text-4xl leading-snug">
+            {coupleNames.groom}
+          </h1>
+          <div class="flex items-center justify-center gap-4 py-1.5">
+            <div class="inv-line-grow h-0.5 w-16 bg-gradient-to-r from-transparent to-[#C5A059]"></div>
+            <span class="font-serif text-3xl italic text-[#C5A059]">&</span>
+            <div class="inv-line-grow h-0.5 w-16 bg-gradient-to-l from-transparent to-[#C5A059]"></div>
+          </div>
+          <h2 class="font-serif text-3xl font-normal tracking-wide text-[#233120] uppercase sm:text-4xl leading-snug">
+            {coupleNames.bride}
+          </h2>
+        </div>
+
+        <!-- Fecha formal -->
+        <p class="mt-7 font-serif text-2xl sm:text-3xl italic font-medium text-[#608B56]">
+          {coupleNames.formalDate}
+        </p>
+
+        <!-- Mensaje de honor -->
+        <div class="mx-auto mt-7 max-w-md border-t-2 border-b-2 border-[#C5A059]/40 bg-[#E6DEA6]/20 rounded-2xl py-6 px-4">
+          <p class="font-serif text-xl sm:text-2xl leading-relaxed text-[#2C3E28] italic">
+            "Con la bendición de Dios y de nuestras familias, tenemos el honor de invitarte a celebrar con nosotros el inicio de nuestro matrimonio."
+          </p>
+        </div>
+      </header>
+
+      <!-- Cuenta Regresiva en Tonos Verde Bosque, Salvia y Dorado + Agendar en Calendario -->
+      <section class="inv-reveal mt-12 relative overflow-hidden rounded-3xl bg-[#2C3E28] p-2 shadow-xl ring-2 ring-[#C5A059]/50">
+        <!-- Fotografía sutil de fondo con velo verde bosque profundo -->
+        <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
+          <img
+            src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80"
+            alt=""
+            class="h-full w-full object-cover opacity-20 scale-105"
+            loading="lazy" decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-[#2C3E28]/90 via-[#385233]/88 to-[#243320]/95"></div>
+        </div>
+
+        <!-- Marco interior con borde dorado/champaña -->
+        <div class="relative z-10 rounded-[22px] border border-[#DCD888]/45 px-5 py-8 text-center">
+          
+          <div class="flex items-center justify-center gap-3">
+            <div class="inv-line-grow h-0.5 w-10 bg-[#DCD888]/60"></div>
+            <span class="text-sm font-bold tracking-[0.32em] text-[#DCD888] uppercase">
+              Reserva la Fecha
+            </span>
+            <div class="inv-line-grow h-0.5 w-10 bg-[#DCD888]/60"></div>
+          </div>
+
+          <h3 class="mt-2 font-serif text-3xl sm:text-4xl font-normal text-[#FAF8F0]">
+            Faltan Sólo
+          </h3>
+          <p class="mt-1.5 font-serif text-base sm:text-lg italic text-[#E6DEA6]">
+            Para el inicio de nuestro para siempre
+          </p>
+
+          <!-- Tarjetas de Tiempo con Efecto Cristal Verde/Dorado -->
+          <div id="countdown-grid" class="mt-7 grid grid-cols-4 gap-2.5">
+            <div class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border border-[#DCD888]/35 bg-[#FAF8F0]/10 py-4 px-1.5 backdrop-blur-md shadow-inner" style="transition-delay: 80ms;">
+              <span id="cd-days" class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#FAF8F0]">00</span>
+              <span class="mt-1.5 text-xs font-bold tracking-[0.18em] text-[#DCD888] uppercase">Días</span>
+            </div>
+            <div class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border border-[#DCD888]/35 bg-[#FAF8F0]/10 py-4 px-1.5 backdrop-blur-md shadow-inner" style="transition-delay: 160ms;">
+              <span id="cd-hours" class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#FAF8F0]">00</span>
+              <span class="mt-1.5 text-xs font-bold tracking-[0.18em] text-[#DCD888] uppercase">Horas</span>
+            </div>
+            <div class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border border-[#DCD888]/35 bg-[#FAF8F0]/10 py-4 px-1.5 backdrop-blur-md shadow-inner" style="transition-delay: 240ms;">
+              <span id="cd-minutes" class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#FAF8F0]">00</span>
+              <span class="mt-1.5 text-xs font-bold tracking-[0.18em] text-[#DCD888] uppercase">Min</span>
+            </div>
+            <div class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border border-[#DCD888]/35 bg-[#FAF8F0]/10 py-4 px-1.5 backdrop-blur-md shadow-inner" style="transition-delay: 320ms;">
+              <span id="cd-seconds" class="font-serif text-3xl sm:text-4xl font-semibold tracking-tight text-[#DCD888]">00</span>
+              <span class="mt-1.5 text-xs font-bold tracking-[0.18em] text-[#E6DEA6] uppercase">Seg</span>
+            </div>
+          </div>
+
+          <!-- Botón de Calendario en Dorado / Champaña -->
+          <div class="mt-7 pt-6 border-t border-[#E6DEA6]/20">
+            <button
+              id="btn-toggle-calendar"
+              type="button"
+              class="inline-flex w-full sm:w-auto items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-[#DCD888] via-[#E6DEA6] to-[#C5A059] px-7 py-4 text-sm font-bold tracking-[0.18em] text-[#1E2B1B] uppercase shadow-md transition duration-300 hover:brightness-105 active:scale-95"
+            >
+              <svg class="h-5 w-5 text-[#1E2B1B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>Agendar en mi Calendario</span>
+            </button>
+
+            <!-- Opciones desplegables con animación suave (Logos grandes sobre fondo claro) -->
+            <div id="calendar-options-panel" class="cal-collapse-wrapper">
+              <div class="cal-collapse-inner pt-2">
+                <span class="block text-center text-xs font-bold tracking-[0.25em] text-[#E6DEA6] uppercase mb-2.5">
+                  Agregar en:
+                </span>
+                <div class="grid grid-cols-2 gap-3">
+                  <a
+                    href={googleCalendarUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Agregar a Google Calendar"
+                    title="Google Calendar"
+                    class="flex items-center justify-center gap-3 rounded-2xl border-2 border-[#C5A059]/70 bg-[#FAF8F0] py-3.5 px-4 shadow-sm transition duration-200 hover:bg-[#E6DEA6]/90 active:scale-95"
+                  >
+                    <!-- Logo oficial de Google ("G") + Icono grande de Google Calendar -->
+                    <svg class="h-9 w-9 shrink-0" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <svg class="h-10 w-10 shrink-0" viewBox="0 0 24 24">
+                      <rect x="3" y="4" width="18" height="17" rx="3" fill="#ffffff" stroke="#4285F4" stroke-width="1.2"/>
+                      <path d="M3 8h18V7a3 3 0 00-3-3H6a3 3 0 00-3 3v1z" fill="#4285F4"/>
+                      <rect x="7" y="2" width="2" height="4" rx="1" fill="#1967D2"/>
+                      <rect x="15" y="2" width="2" height="4" rx="1" fill="#1967D2"/>
+                      <text x="12" y="17.5" text-anchor="middle" fill="#1967D2" font-size="8.5" font-weight="bold" font-family="sans-serif">31</text>
+                    </svg>
+                  </a>
+                  <button
+                    id="btn-download-ics"
+                    type="button"
+                    aria-label="Agregar en Apple o Android"
+                    title="Apple / Android"
+                    class="flex items-center justify-center gap-3.5 rounded-2xl border-2 border-[#C5A059]/70 bg-[#FAF8F0] py-3.5 px-4 shadow-sm transition duration-200 hover:bg-[#E6DEA6]/90 active:scale-95"
+                  >
+                    <!-- Logo grande de Apple -->
+                    <svg class="h-10 w-10 shrink-0 fill-[#233120]" viewBox="0 0 24 24">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.33c.67-.81 1.12-1.94 1-3.08-.96.04-2.13.64-2.82 1.45-.61.7-.115 1.85-1.01 2.97 1.08.08 2.16-.53 2.83-1.34z"/>
+                    </svg>
+                    <span class="h-6 w-px bg-[#C5A059]/50"></span>
+                    <!-- Logo grande de Android -->
+                    <svg class="h-10 w-10 shrink-0 fill-[#78C257]" viewBox="0 0 24 24">
+                      <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Galería Editorial de Fotos -->
+      <CoupleGallery />
+
+      <!-- Separador Ornamental en Dorado y Verde Salvia -->
+      <div class="inv-reveal my-12 flex items-center justify-center gap-3">
+        <div class="inv-line-grow h-0.5 w-20 bg-gradient-to-r from-transparent to-[#C5A059]"></div>
+        <span class="h-2.5 w-2.5 rotate-45 border border-[#C5A059] bg-[#DCD888]"></span>
+        <div class="inv-line-grow h-0.5 w-20 bg-gradient-to-l from-transparent to-[#C5A059]"></div>
+      </div>
+
+      <!-- Ubicación: Iglesia (Ceremonia Religiosa) -->
+      <section class="inv-reveal overflow-hidden rounded-3xl border-2 border-[#C5A059]/40 bg-white shadow-md transition-shadow duration-500 hover:shadow-lg">
+        <!-- Fotografía del lugar -->
+        <div class="relative h-56 w-full overflow-hidden bg-[#2C3E28]">
+          <img
+            src="/images/iglesia.jpg"
+            alt="Parroquia de San Pedro Apóstol"
+            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            loading="lazy" decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#1E2B1B]/90 via-[#1E2B1B]/30 to-transparent"></div>
+          <div class="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-2">
+            <div>
+              <span class="block text-xs font-bold tracking-[0.25em] text-[#DCD888] uppercase">
+                Ceremonia Religiosa
+              </span>
+              <h3 class="mt-1 font-serif text-2xl sm:text-3xl font-normal text-white">
+                Parroquia de San Pedro Apóstol
+              </h3>
+            </div>
+            <span class="shrink-0 rounded-full border border-[#C5A059] bg-[#E6DEA6] px-3.5 py-1.5 text-sm font-bold text-[#233120] shadow-xs">
+              5:30 PM
+            </span>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <div class="flex items-start gap-3 text-[#2C3E28]">
+            <svg class="mt-1 h-5 w-5 shrink-0 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <p class="text-base sm:text-lg leading-relaxed text-[#384934]">
+              Calzada Mónaco 485, Residencial San Isidro, Torreón, Coahuila, C.P. 27100.
+            </p>
+          </div>
+
+          <!-- Mini mapa interactivo -->
+          <div class="mt-5 overflow-hidden rounded-2xl border border-[#C5A059]/50 bg-[#FAF8F0] shadow-2xs">
+            <iframe
+              title="Mapa Parroquia de San Pedro Apóstol"
+              src="https://maps.google.com/maps?q=Parroquia+de+San+Pedro+Apostol+Torreon+25.5659072,-103.4318185&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              class="h-48 w-full border-0"
+              loading="lazy" decoding="async"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <div class="mt-5">
+            <span class="block text-center text-xs sm:text-sm font-bold tracking-[0.28em] text-[#8C651D] uppercase mb-3">
+              Ver en:
+            </span>
+            <div class="grid grid-cols-2 gap-3.5">
+              <a
+                href="https://maps.app.goo.gl/JTh9BtxJdsrYgC7s5"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver en Google Maps"
+                title="Google Maps"
+                class="flex items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-4 shadow-2xs transition hover:bg-[#E6DEA6]/45 active:scale-95"
+              >
+                <!-- Logo grande de Google Maps -->
+                <svg class="h-11 w-11 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <path fill="#4285F4" d="M12 2c3.87 0 7 3.13 7 7 0 2.68-2.05 6.32-4.24 9.36L12 12V2z"/>
+                  <path fill="#FBBC04" d="M5 9c0 2.68 2.05 6.32 4.24 9.36L12 12 6.4 4.8C5.52 6 5 7.44 5 9z"/>
+                  <path fill="#34A853" d="M12 22s4.18-4.63 6.08-8.98L12 12l-2.76 6.36C10.91 20.68 12 22 12 22z"/>
+                  <circle cx="12" cy="9" r="3.2" fill="#FAF8F0"/>
+                </svg>
+              </a>
+              <a
+                href="https://waze.com/ul?ll=25.5659072,-103.4318185&navigate=yes"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver en Waze"
+                title="Waze"
+                class="flex items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-4 shadow-2xs transition hover:bg-[#E6DEA6]/45 active:scale-95"
+              >
+                <!-- Logo grande de Waze -->
+                <svg class="h-11 w-11 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#33CCFF" d="M12.5 3C7.8 3 4 6.6 4 11c0 1.9.7 3.7 1.9 5.1-.5.6-1.3 1.1-2.2 1.3-.4.1-.7.5-.6.9.1.3.3.5.6.6 1.5.3 3 .2 4.4-.2 1.3.5 2.8.8 4.4.8 4.7 0 8.5-3.6 8.5-8.5S17.2 3 12.5 3z"/>
+                  <path fill="none" stroke="#1E2B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12.5 3C7.8 3 4 6.6 4 11c0 1.9.7 3.7 1.9 5.1-.5.6-1.3 1.1-2.2 1.3-.4.1-.7.5-.6.9.1.3.3.5.6.6 1.5.3 3 .2 4.4-.2 1.3.5 2.8.8 4.4.8 4.7 0 8.5-3.6 8.5-8.5S17.2 3 12.5 3z"/>
+                  <circle cx="10" cy="9.5" r="1.2" fill="#1E2B1B"/>
+                  <circle cx="15" cy="9.5" r="1.2" fill="#1E2B1B"/>
+                  <path fill="none" stroke="#1E2B1B" stroke-width="1.5" stroke-linecap="round" d="M9.8 13c.7 1 1.7 1.5 2.7 1.5s2-.5 2.7-1.5"/>
+                  <circle cx="8.5" cy="19.5" r="2.2" fill="#1E2B1B"/>
+                  <circle cx="8.5" cy="19.5" r="0.8" fill="#FAF8F0"/>
+                  <circle cx="16" cy="19.5" r="2.2" fill="#1E2B1B"/>
+                  <circle cx="16" cy="19.5" r="0.8" fill="#FAF8F0"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ubicación: Recepción (Fiesta & Banquete) -->
+      <section class="inv-reveal mt-10 overflow-hidden rounded-3xl border-2 border-[#C5A059]/40 bg-white shadow-md transition-shadow duration-500 hover:shadow-lg">
+        <!-- Fotografía del lugar -->
+        <div class="relative h-56 w-full overflow-hidden bg-[#2C3E28]">
+          <img
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=85"
+            alt="Centro de Convenciones San Ángel"
+            class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+            loading="lazy" decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#1E2B1B]/90 via-[#1E2B1B]/30 to-transparent"></div>
+          <div class="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-2">
+            <div>
+              <span class="block text-xs font-bold tracking-[0.25em] text-[#DCD888] uppercase">
+                Recepción & Banquete
+              </span>
+              <h3 class="mt-1 font-serif text-2xl sm:text-3xl font-normal text-white">
+                Centro de Convenciones San Ángel
+              </h3>
+            </div>
+            <span class="shrink-0 rounded-full border border-[#C5A059] bg-[#E6DEA6] px-3.5 py-1.5 text-sm font-bold text-[#233120] shadow-xs">
+              9:00 PM
+            </span>
+          </div>
+        </div>
+
+        <div class="p-6">
+          <div class="flex items-start gap-3 text-[#2C3E28]">
+            <svg class="mt-1 h-5 w-5 shrink-0 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <p class="text-base sm:text-lg leading-relaxed text-[#384934]">
+              Av. Lerdo de Tejada, Centro, Torreón, Coahuila, C.P. 27100.
+            </p>
+          </div>
+
+          <!-- Mini mapa interactivo -->
+          <div class="mt-5 overflow-hidden rounded-2xl border border-[#C5A059]/50 bg-[#FAF8F0] shadow-2xs">
+            <iframe
+              title="Mapa Centro de Convenciones San Ángel"
+              src="https://maps.google.com/maps?q=25.5546346,-103.4324767&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              class="h-48 w-full border-0"
+              loading="lazy" decoding="async"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <div class="mt-5">
+            <span class="block text-center text-xs sm:text-sm font-bold tracking-[0.28em] text-[#8C651D] uppercase mb-3">
+              Ver en:
+            </span>
+            <div class="grid grid-cols-2 gap-3.5">
+              <a
+                href="https://maps.app.goo.gl/YqPAXaNvbj2CnKM49"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver en Google Maps"
+                title="Google Maps"
+                class="flex items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-4 shadow-2xs transition hover:bg-[#E6DEA6]/45 active:scale-95"
+              >
+                <!-- Logo grande de Google Maps -->
+                <svg class="h-11 w-11 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <path fill="#4285F4" d="M12 2c3.87 0 7 3.13 7 7 0 2.68-2.05 6.32-4.24 9.36L12 12V2z"/>
+                  <path fill="#FBBC04" d="M5 9c0 2.68 2.05 6.32 4.24 9.36L12 12 6.4 4.8C5.52 6 5 7.44 5 9z"/>
+                  <path fill="#34A853" d="M12 22s4.18-4.63 6.08-8.98L12 12l-2.76 6.36C10.91 20.68 12 22 12 22z"/>
+                  <circle cx="12" cy="9" r="3.2" fill="#FAF8F0"/>
+                </svg>
+              </a>
+              <a
+                href="https://waze.com/ul?ll=25.5546346,-103.4324767&navigate=yes"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ver en Waze"
+                title="Waze"
+                class="flex items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-4 shadow-2xs transition hover:bg-[#E6DEA6]/45 active:scale-95"
+              >
+                <!-- Logo grande de Waze -->
+                <svg class="h-11 w-11 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#33CCFF" d="M12.5 3C7.8 3 4 6.6 4 11c0 1.9.7 3.7 1.9 5.1-.5.6-1.3 1.1-2.2 1.3-.4.1-.7.5-.6.9.1.3.3.5.6.6 1.5.3 3 .2 4.4-.2 1.3.5 2.8.8 4.4.8 4.7 0 8.5-3.6 8.5-8.5S17.2 3 12.5 3z"/>
+                  <path fill="none" stroke="#1E2B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12.5 3C7.8 3 4 6.6 4 11c0 1.9.7 3.7 1.9 5.1-.5.6-1.3 1.1-2.2 1.3-.4.1-.7.5-.6.9.1.3.3.5.6.6 1.5.3 3 .2 4.4-.2 1.3.5 2.8.8 4.4.8 4.7 0 8.5-3.6 8.5-8.5S17.2 3 12.5 3z"/>
+                  <circle cx="10" cy="9.5" r="1.2" fill="#1E2B1B"/>
+                  <circle cx="15" cy="9.5" r="1.2" fill="#1E2B1B"/>
+                  <path fill="none" stroke="#1E2B1B" stroke-width="1.5" stroke-linecap="round" d="M9.8 13c.7 1 1.7 1.5 2.7 1.5s2-.5 2.7-1.5"/>
+                  <circle cx="8.5" cy="19.5" r="2.2" fill="#1E2B1B"/>
+                  <circle cx="8.5" cy="19.5" r="0.8" fill="#FAF8F0"/>
+                  <circle cx="16" cy="19.5" r="2.2" fill="#1E2B1B"/>
+                  <circle cx="16" cy="19.5" r="0.8" fill="#FAF8F0"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Itinerario / Horarios con Acentos Dorados -->
+      <section class="inv-reveal mt-12 rounded-3xl border-2 border-[#C5A059]/65 bg-gradient-to-b from-white via-[#FAF8F0] to-[#E6DEA6]/25 p-7 shadow-md">
+        <div class="text-center">
+          <span class="inline-block rounded-full border border-[#C5A059]/60 bg-gradient-to-r from-[#E6DEA6]/70 via-[#DCD888]/80 to-[#E6DEA6]/70 px-5 py-1 text-sm font-bold tracking-[0.3em] text-[#8C651D] uppercase shadow-2xs">
+            Itinerario
+          </span>
+          <h3 class="mt-3 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">El Programa del Día</h3>
+          <div class="mt-3 flex items-center justify-center gap-2.5">
+            <div class="inv-line-grow h-0.5 w-14 bg-gradient-to-r from-transparent to-[#C5A059]"></div>
+            <span class="h-2 w-2 rotate-45 bg-[#C5A059]"></span>
+            <div class="inv-line-grow h-0.5 w-14 bg-gradient-to-l from-transparent to-[#C5A059]"></div>
+          </div>
+        </div>
+
+        <ol class="relative mt-9 space-y-8 border-l-2 border-[#C5A059] ml-4 pl-7">
+          {itineraryList.map((item, idx) => (
+            <li class="inv-stagger-item relative" style={`transition-delay: ${idx * 120}ms;`}>
+              <!-- Marcador circular en dorado y verde -->
+              <span class="absolute -left-[37px] top-1.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-[#C5A059] bg-gradient-to-br from-[#DCD888] to-[#C5A059] shadow-xs transition-transform duration-300 hover:scale-125">
+                <span class="h-2 w-2 rounded-full bg-[#233120]"></span>
+              </span>
+              <span class="inline-block rounded-lg border border-[#C5A059]/60 bg-gradient-to-r from-[#E6DEA6] via-[#DCD888] to-[#E6DEA6] px-3 py-1 text-sm font-bold tracking-wider text-[#233120] uppercase shadow-2xs">
+                {item.time}
+              </span>
+              <h4 class="mt-2 font-serif text-xl sm:text-2xl font-bold text-[#233120]">{item.title}</h4>
+              <p class="mt-1 text-base sm:text-lg text-[#4A5D45]">{item.desc}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- Código de Vestimenta Interactivo (Invitadas & Invitados) -->
+      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-7 shadow-md">
+        <div class="text-center">
+          <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">
+            Etiqueta
+          </span>
+          <h3 class="mt-1.5 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Código de Vestimenta</h3>
+          <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#A3C184] to-transparent"></div>
+
+          <p class="mt-4 font-serif text-2xl sm:text-3xl font-bold text-[#608B56]">
+            Vestimenta Formal
+          </p>
+          <p class="mt-2 text-sm sm:text-base text-[#4A5D45]">
+            Selecciona una opción para ver los detalles y colores reservados:
+          </p>
+        </div>
+
+        <!-- Botones Interactivos con Icono de Vestido (Invitadas) y Traje (Invitados) -->
+        <div class="mt-6 grid grid-cols-2 gap-3.5">
+          <!-- Botón Invitadas (Mujeres) -->
+          <button
+            id="btn-dress-women"
+            type="button"
+            aria-expanded="false"
+            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
+          >
+            <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
+              <!-- Icono Sobrio de Vestido Formal -->
+              <svg class="h-10 w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
+                <path d="M25 10c2 3 4 4 7 4s5-1 7-4l3 10-5 7c7 10 12 22 14 31H13c2-9 7-21 14-31l-5-7 3-10z" fill="#A3C184" fill-opacity="0.35" stroke="#2C3E28" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M27 27h10" stroke="#2C3E28" stroke-width="2.2" stroke-linecap="round"/>
+                <path d="M26 27c-3 10-6 20-7 31M38 27c3 10 6 20 7 31M32 27v31" stroke="#608B56" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="mt-3 font-serif text-lg sm:text-xl font-bold text-[#233120]">
+              Invitadas
+            </span>
+            <span class="mt-1 inline-flex items-center gap-1 text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
+              <span>Ver para Invitadas</span>
+              <svg class="dress-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+
+          <!-- Botón Invitados (Hombres) -->
+          <button
+            id="btn-dress-men"
+            type="button"
+            aria-expanded="false"
+            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
+          >
+            <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
+              <!-- Icono Sobrio de Traje / Vestimenta Formal -->
+              <svg class="h-10 w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
+                <path d="M20 12l6-3h12l6 3 8 10-5 32H17L12 22l8-10z" fill="#2C3E28" stroke="#233120" stroke-width="2.2" stroke-linejoin="round"/>
+                <path d="M26 9l6 17 6-17" fill="#FAF8F0" stroke="#233120" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M32 15l-2.5 5L32 26l2.5-6L32 15z" fill="#608B56"/>
+                <path d="M26 9l-5 13 11 6M38 9l5 13-11 6" stroke="#A3C184" stroke-width="1.6" stroke-linejoin="round"/>
+                <line x1="32" y1="26" x2="32" y2="54" stroke="#A3C184" stroke-width="1.6"/>
+              </svg>
+            </div>
+            <span class="mt-3 font-serif text-lg sm:text-xl font-bold text-[#233120]">
+              Invitados
+            </span>
+            <span class="mt-1 inline-flex items-center gap-1 text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
+              <span>Ver para Invitados</span>
+              <svg class="dress-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- Panel Desplegable Dinámico para Invitadas / Invitados -->
+        <div id="dress-code-collapse" class="cal-collapse-wrapper">
+          <div class="cal-collapse-inner pt-2">
+            <!-- Vista Invitadas (Mujeres) -->
+            <div id="dress-panel-women" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-5 shadow-2xs">
+              <div class="flex items-center justify-between border-b border-[#A3C184]/40 pb-3">
+                <div>
+                  <span class="text-xs font-bold tracking-[0.22em] text-[#608B56] uppercase">Guía para Invitadas</span>
+                  <h4 class="mt-0.5 font-serif text-2xl font-bold text-[#233120]">Vestido Formal</h4>
+                </div>
+                <span class="rounded-full bg-[#A3C184]/25 px-3 py-1 text-xs font-bold text-[#2C3E28] uppercase">
+                  Damas
+                </span>
+              </div>
+
+              <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#384934]">
+                Vestido largo de noche o vestimenta formal elegante. Puedes elegir el color de tu preferencia, únicamente te pedimos <strong>no usar blanco (ni tonos similares como hueso, mármol, marfil o perla) ni verde olivo o similares</strong>.
+              </p>
+
+              <!-- Colores Reservados / Prohibidos -->
+              <div class="mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-4">
+                <span class="block text-center text-xs font-bold tracking-[0.2em] text-[#2C3E28] uppercase">
+                  Colores Reservados (No Usar)
+                </span>
+                <div class="mt-3.5 flex items-center justify-center gap-4 sm:gap-5">
+                  <!-- Blanco -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Blanco</span>
+                  </div>
+                  <!-- Hueso / Mármol / Marfil -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Hueso / Mármol</span>
+                  </div>
+                  <!-- Verde Olivo Claro (#8E9B6D) -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Olivo Claro</span>
+                  </div>
+                  <!-- Verde Olivo Oscuro (#66754C) -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Verde Olivo</span>
+                  </div>
+                </div>
+                <p class="mt-3.5 text-center text-xs sm:text-sm italic text-[#4A5D45]">
+                  Por favor evita blanco, hueso, mármol, marfil, perla, crema claro y cualquier gama de verde olivo o tonos similares.
+                </p>
+              </div>
+            </div>
+
+            <!-- Vista Invitados (Hombres) -->
+            <div id="dress-panel-men" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-5 shadow-2xs">
+              <div class="flex items-center justify-between border-b border-[#A3C184]/40 pb-3">
+                <div>
+                  <span class="text-xs font-bold tracking-[0.22em] text-[#608B56] uppercase">Guía para Invitados</span>
+                  <h4 class="mt-0.5 font-serif text-2xl font-bold text-[#233120]">Vestimenta Formal</h4>
+                </div>
+                <span class="rounded-full bg-[#A3C184]/25 px-3 py-1 text-xs font-bold text-[#2C3E28] uppercase">
+                  Caballeros
+                </span>
+              </div>
+
+              <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#384934]">
+                Vestimenta formal (de preferencia traje o esmoquin, pero con que sea vestimenta formal basta). Por favor <strong>no usar blanco (ni tonos similares como hueso, mármol o marfil) ni verde olivo o similares</strong>.
+              </p>
+
+              <!-- Colores Reservados / Prohibidos -->
+              <div class="mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-4">
+                <span class="block text-center text-xs font-bold tracking-[0.2em] text-[#2C3E28] uppercase">
+                  Colores Reservados (No Usar)
+                </span>
+                <div class="mt-3.5 flex items-center justify-center gap-4 sm:gap-5">
+                  <!-- Blanco -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Blanco</span>
+                  </div>
+                  <!-- Hueso / Mármol / Marfil -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Hueso / Mármol</span>
+                  </div>
+                  <!-- Verde Olivo Claro (#8E9B6D) -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Olivo Claro</span>
+                  </div>
+                  <!-- Verde Olivo Oscuro (#66754C) -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-12 w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Verde Olivo</span>
+                  </div>
+                </div>
+                <p class="mt-3.5 text-center text-xs sm:text-sm italic text-[#4A5D45]">
+                  Por favor evita blanco, hueso, mármol, marfil, crema claro y cualquier prenda o accesorio en verde olivo o tonos similares.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Protocolo: Evento Sólo para Adultos -->
+      <section class="inv-reveal mt-10 rounded-3xl border-2 border-[#C5A059]/40 bg-gradient-to-b from-white to-[#E6DEA6]/25 p-7 shadow-md text-center">
+        <span class="block text-sm font-extrabold tracking-[0.28em] text-[#B91C1C] uppercase">
+          Aviso de Recepción
+        </span>
+        <h3 class="mt-3 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Evento Sólo para Adultos</h3>
+        <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+        <p class="mt-4 text-base sm:text-lg leading-relaxed text-[#384934] max-w-md mx-auto">
+          Amamos a sus pequeños, sin embargo, para que todos podamos disfrutar al máximo y celebrar esta velada con tranquilidad, nuestra boda será un evento exclusivamente para adultos.
+        </p>
+        <p class="mt-3.5 text-base sm:text-lg font-serif italic text-[#608B56]">
+          Agradecemos profundamente su comprensión y cariño.
+        </p>
+      </section>
+
+      <!-- Mesa de Regalos Interactiva -->
+      <section class="inv-reveal mt-12 rounded-3xl border-2 border-[#C5A059]/40 bg-white p-7 shadow-md">
+        <div class="text-center">
+          <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">Mesa de Regalos</span>
+          <h3 class="mt-1.5 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Muestras de Cariño</h3>
+          <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+          <p class="mt-4 text-base sm:text-lg text-[#384934] leading-relaxed">
+            Tu presencia es nuestro mayor regalo. Si deseas tener un detalle con nosotros, ponemos a tu disposición nuestras opciones:
+          </p>
+        </div>
+
+        <!-- Mesa de regalos con iconos grandes en tarjetas limpias -->
+        <div class="mt-6">
+          <span class="block text-center text-xs sm:text-sm font-bold tracking-[0.28em] text-[#8C651D] uppercase mb-3">
+            Ver en:
+          </span>
+          <div class="grid grid-cols-2 gap-3.5">
+            <!-- SEARS (Logo Oficial) -->
+            <a
+              href="https://www.sears.com.mx/Mesa-de-Regalos/287737/te-invito-a-mi-boda-martin-ricardo-kiara"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ver mesa de regalos en SEARS"
+              title="SEARS"
+              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-5 px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95"
+              style="transition-delay: 80ms;"
+            >
+              <img
+                src="/images/logo-sears.svg"
+                alt="SEARS"
+                loading="lazy"
+                decoding="async"
+                class="h-9 sm:h-10 w-auto object-contain"
+              />
+              <span class="mt-2.5 text-xs sm:text-sm font-medium text-[#4A5D45]">
+                Evento: <strong class="font-mono text-[#233120]">287737</strong>
+              </span>
+            </a>
+
+            <!-- CIMACO (Logo Oficial) -->
+            <a
+              href="https://mdr.cimaco.com.mx/evento/47298?fbclid=IwY2xjawVYlXlleHRuA2FlbQIxMQBwZG9mBXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR-_MtWGxX6xKzVALP4jrj13GMVUAI9Mxqkt5sH9I0YPQjzyiwf9rbUY0O2YbQ_aem_vkywX0-_LqqqLBfHn0c1IA"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ver mesa de regalos en CIMACO"
+              title="CIMACO"
+              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-5 px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95"
+              style="transition-delay: 160ms;"
+            >
+              <img
+                src="/images/logo-cimaco.svg"
+                alt="CIMACO"
+                loading="lazy"
+                decoding="async"
+                class="h-9 sm:h-10 w-auto object-contain"
+              />
+              <span class="mt-2.5 text-xs sm:text-sm font-medium text-[#4A5D45]">
+                Evento: <strong class="font-mono text-[#233120]">47298</strong>
+              </span>
+            </a>
+          </div>
+
+          <!-- Datos Bancarios / Transferencia (Diseño sólido y limpio para ambos novios) -->
+          <div class="inv-stagger-item mt-6 pt-6 border-t border-[#E6DEA6]" style="transition-delay: 240ms;">
+            <div class="flex items-center justify-between mb-4 px-1">
+              <div>
+                <span class="block text-xs font-bold tracking-[0.22em] text-[#8C651D] uppercase">Datos Bancarios</span>
+                <h4 class="font-serif text-xl sm:text-2xl font-bold text-[#233120]">Transferencia Directa</h4>
+              </div>
+              <img
+                src="/images/logo-bbva.svg"
+                alt="BBVA"
+                loading="lazy"
+                decoding="async"
+                class="h-6 sm:h-7 w-auto object-contain"
+              />
+            </div>
+
+            <div class="space-y-3.5">
+              <!-- Cuenta 1: Martín Ricardo Cabello Rodríguez -->
+              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-4 shadow-2xs transition hover:border-[#C5A059]">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiario</span>
+                  <span class="text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
+                </div>
+                <p class="mt-1 font-serif text-base sm:text-lg font-bold text-[#233120]">
+                  Martín Ricardo Cabello Rodríguez
+                </p>
+                <div class="mt-3 flex items-center justify-between gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-3.5 py-2.5">
+                  <span class="font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide whitespace-nowrap">
+                    012 180 01548291029 4
+                  </span>
+                  <button
+                    type="button"
+                    data-copy-clabe="012180015482910294"
+                    data-copy-owner="Ricardo"
+                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-3 py-1.5 text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
+                  >
+                    <svg class="h-3.5 w-3.5 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span>Copiar</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cuenta 2: Kiara Delgadillo Torres -->
+              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-4 shadow-2xs transition hover:border-[#C5A059]">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiaria</span>
+                  <span class="text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
+                </div>
+                <p class="mt-1 font-serif text-base sm:text-lg font-bold text-[#233120]">
+                  Kiara Delgadillo Torres
+                </p>
+                <div class="mt-3 flex items-center justify-between gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-3.5 py-2.5">
+                  <span class="font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide whitespace-nowrap">
+                    012 180 01984736251 8
+                  </span>
+                  <button
+                    type="button"
+                    data-copy-clabe="012180019847362518"
+                    data-copy-owner="Kiara"
+                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-3 py-1.5 text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
+                  >
+                    <svg class="h-3.5 w-3.5 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span>Copiar</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Confirmación de Asistencia (Con Ricardo o con Kiara) -->
+      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-7 sm:p-8 shadow-md text-center">
+        <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">Confirmación</span>
+        <h3 class="mt-1.5 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Acompáñanos en Nuestro Día</h3>
+        <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+        
+        <p class="mt-4 text-base sm:text-lg leading-relaxed text-[#384934] max-w-md mx-auto">
+          Tu presencia es muy importante para nosotros. Tanto si nos acompañas como si no te es posible asistir, te agradecemos de corazón avisarnos antes del <strong>1 de Marzo de 2027</strong>.
+        </p>
+
+        <div class="mt-7 pt-6 border-t border-[#E6DEA6]/80">
+          <span class="block text-center text-xs sm:text-sm font-bold tracking-[0.22em] text-[#608B56] uppercase mb-4">
+            Confirmar asistencia con:
+          </span>
+
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Contacto con Ricardo -->
+            <a
+              href={waUrlRicardo}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Confirmar con Ricardo por WhatsApp"
+              title="Contactar a Ricardo"
+              class="group relative flex flex-col items-center justify-between rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
+            >
+              <div class="text-center">
+                <span class="block text-[11px] font-bold tracking-[0.2em] text-[#608B56] uppercase">
+                  Contacto con
+                </span>
+                <span class="mt-1 block font-serif text-2xl font-bold text-[#233120]">
+                  Ricardo
+                </span>
+              </div>
+
+              <div class="my-4 flex items-center justify-center">
+                <img
+                  src="/images/logo-whatsapp.svg"
+                  alt="WhatsApp"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-14 w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
+
+              <div class="w-full rounded-xl border border-[#A3C184]/45 bg-white py-2 px-2.5 text-center shadow-2xs">
+                <span class="block font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide">
+                  871 123 4567
+                </span>
+                <span class="mt-0.5 block text-[10px] font-bold tracking-[0.16em] text-[#608B56] uppercase">
+                  Enviar mensaje
+                </span>
+              </div>
+            </a>
+
+            <!-- Contacto con Kiara -->
+            <a
+              href={waUrlKiara}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Confirmar con Kiara por WhatsApp"
+              title="Contactar a Kiara"
+              class="group relative flex flex-col items-center justify-between rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
+            >
+              <div class="text-center">
+                <span class="block text-[11px] font-bold tracking-[0.2em] text-[#608B56] uppercase">
+                  Contacto con
+                </span>
+                <span class="mt-1 block font-serif text-2xl font-bold text-[#233120]">
+                  Kiara
+                </span>
+              </div>
+
+              <div class="my-4 flex items-center justify-center">
+                <img
+                  src="/images/logo-whatsapp.svg"
+                  alt="WhatsApp"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-14 w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
+                />
+              </div>
+
+              <div class="w-full rounded-xl border border-[#A3C184]/45 bg-white py-2 px-2.5 text-center shadow-2xs">
+                <span class="block font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide">
+                  871 987 6543
+                </span>
+                <span class="mt-0.5 block text-[10px] font-bold tracking-[0.16em] text-[#608B56] uppercase">
+                  Enviar mensaje
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Widget de Música Flotante -->
+  <MusicPlayerWidget />
+
+</Layout>
+
+<script define:vars={{ targetIsoDate: coupleNames.targetIsoDate }}>
+  // Animación de aparición suave conforme bajas
+  const revealElements = document.querySelectorAll('.inv-reveal');
+  if ('IntersectionObserver' in window) {
+    const heroHeader = document.querySelector('header.inv-reveal');
+    if (heroHeader) {
+      requestAnimationFrame(() => heroHeader.classList.add('is-visible'));
+    }
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -7% 0px',
+      }
+    );
+
+    revealElements.forEach((el) => {
+      if (el !== heroHeader) {
+        revealObserver.observe(el);
+      }
+    });
+  } else {
+    revealElements.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // Animación de difuminado suave entre las 3 fotos principales de portada en arco
+  const heroSlidesEls = document.querySelectorAll('.hero-crossfade-slide');
+  if (heroSlidesEls.length > 1) {
+    let currentHeroIndex = 0;
+    setInterval(() => {
+      const prevEl = heroSlidesEls[currentHeroIndex];
+      currentHeroIndex = (currentHeroIndex + 1) % heroSlidesEls.length;
+      const nextEl = heroSlidesEls[currentHeroIndex];
+
+      if (prevEl) {
+        prevEl.classList.remove('opacity-100', 'scale-100', 'z-10');
+        prevEl.classList.add('opacity-0', 'scale-105', 'z-0');
+      }
+      if (nextEl) {
+        nextEl.classList.remove('opacity-0', 'scale-105', 'z-0');
+        nextEl.classList.add('opacity-100', 'scale-100', 'z-10');
+      }
+    }, 4500);
+  }
+
+  // Interactividad del Código de Vestimenta (Invitadas / Invitados)
+  const btnDressWomen = document.getElementById('btn-dress-women');
+  const btnDressMen = document.getElementById('btn-dress-men');
+  const dressCollapse = document.getElementById('dress-code-collapse');
+  const panelWomen = document.getElementById('dress-panel-women');
+  const panelMen = document.getElementById('dress-panel-men');
+  let activeDressTab = null;
+
+  function setDressTab(tab) {
+    if (!dressCollapse || !panelWomen || !panelMen || !btnDressWomen || !btnDressMen) return;
+
+    if (activeDressTab === tab) {
+      // Si vuelve a presionar el mismo botón activo, se cierra suavemente
+      activeDressTab = null;
+      dressCollapse.classList.remove('is-open');
+      btnDressWomen.classList.remove('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressMen.classList.remove('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressWomen.querySelector('.dress-chevron')?.classList.remove('rotate-180');
+      btnDressMen.querySelector('.dress-chevron')?.classList.remove('rotate-180');
+      btnDressWomen.setAttribute('aria-expanded', 'false');
+      btnDressMen.setAttribute('aria-expanded', 'false');
+      return;
+    }
+
+    activeDressTab = tab;
+    dressCollapse.classList.add('is-open');
+
+    if (tab === 'women') {
+      panelWomen.classList.remove('hidden');
+      panelMen.classList.add('hidden');
+      btnDressWomen.classList.add('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressMen.classList.remove('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressWomen.querySelector('.dress-chevron')?.classList.add('rotate-180');
+      btnDressMen.querySelector('.dress-chevron')?.classList.remove('rotate-180');
+      btnDressWomen.setAttribute('aria-expanded', 'true');
+      btnDressMen.setAttribute('aria-expanded', 'false');
+    } else {
+      panelMen.classList.remove('hidden');
+      panelWomen.classList.add('hidden');
+      btnDressMen.classList.add('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressWomen.classList.remove('ring-2', 'ring-[#608B56]', 'bg-[#A3C184]/20');
+      btnDressMen.querySelector('.dress-chevron')?.classList.add('rotate-180');
+      btnDressWomen.querySelector('.dress-chevron')?.classList.remove('rotate-180');
+      btnDressMen.setAttribute('aria-expanded', 'true');
+      btnDressWomen.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  btnDressWomen?.addEventListener('click', () => setDressTab('women'));
+  btnDressMen?.addEventListener('click', () => setDressTab('men'));
+
+  // Mostrar / ocultar opciones de calendario y descargar archivo .ics
+  const btnToggleCal = document.getElementById('btn-toggle-calendar');
+  const calPanel = document.getElementById('calendar-options-panel');
+  const btnDownloadIcs = document.getElementById('btn-download-ics');
+
+  btnToggleCal?.addEventListener('click', () => {
+    if (!calPanel) return;
+    calPanel.classList.toggle('is-open');
+  });
+
+  btnDownloadIcs?.addEventListener('click', () => {
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Ricardo y Kiara//Invitacion de Boda//ES',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:boda-ricardo-y-kiara-2027@invitacion',
+      'SUMMARY:Boda de Ricardo & Kiara',
+      'DTSTART:20270402T173000',
+      'DTEND:20270403T020000',
+      'LOCATION:Parroquia de San Pedro Apóstol, Calzada Mónaco 485, Torreón, Coahuila',
+      'DESCRIPTION:Ceremonia Religiosa (5:30 PM): Parroquia de San Pedro Apóstol. Recepción (9:00 PM): Centro de Convenciones San Ángel, Torreón.',
+      'STATUS:CONFIRMED',
+      'BEGIN:VALARM',
+      'TRIGGER:-P1D',
+      'ACTION:DISPLAY',
+      'DESCRIPTION:Mañana es la Boda de Ricardo & Kiara',
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n');
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'boda-ricardo-y-kiara.ics');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    if (window.showInAppToast) {
+      window.showInAppToast('Evento listo para guardar en tu calendario', 'success');
+    }
+  });
+
+  // Copiar CLABE al portapapeles para cualquiera de las dos cuentas
+  document.querySelectorAll('.btn-copy-clabe-item').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const clabe = btn.getAttribute('data-copy-clabe') || '';
+      const owner = btn.getAttribute('data-copy-owner') || '';
+      if (navigator.clipboard && clabe) {
+        navigator.clipboard.writeText(clabe).then(() => {
+          if (window.showInAppToast) {
+            window.showInAppToast(`CLABE de ${owner} copiada al portapapeles`, 'success');
+          }
+        }).catch(() => {
+          if (window.showInAppToast) {
+            window.showInAppToast('No se pudo copiar automáticamente', 'error');
+          }
+        });
+      }
+    });
+  });
+
+  // Cuenta regresiva precisa
+  function updateCountdown() {
+    const target = new Date(targetIsoDate).getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      const elD = document.getElementById('cd-days');
+      const elH = document.getElementById('cd-hours');
+      const elM = document.getElementById('cd-minutes');
+      const elS = document.getElementById('cd-seconds');
+      if (elD) elD.textContent = '00';
+      if (elH) elH.textContent = '00';
+      if (elM) elM.textContent = '00';
+      if (elS) elS.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const pad = (n) => String(n).padStart(2, '0');
+    const elD = document.getElementById('cd-days');
+    const elH = document.getElementById('cd-hours');
+    const elM = document.getElementById('cd-minutes');
+    const elS = document.getElementById('cd-seconds');
+    if (elD) elD.textContent = pad(days);
+    if (elH) elH.textContent = pad(hours);
+    if (elM) elM.textContent = pad(minutes);
+    if (elS) elS.textContent = pad(seconds);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
