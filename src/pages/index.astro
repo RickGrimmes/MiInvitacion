@@ -83,6 +83,7 @@ const itineraryList = isRicardoKiara
       
       <!-- Portada Fotográfica 100% de ancho, más larga, tocando el techo y con forma de arco arriba -->
       <div
+        id="hero-arch-container"
         class="relative h-[535px] sm:h-[585px] w-full overflow-hidden rounded-t-full"
         style="-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%); mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%);"
       >
@@ -142,7 +143,7 @@ const itineraryList = isRicardoKiara
         <!-- Fotografía sutil de fondo con velo verde bosque profundo -->
         <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
           <img
-            src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80"
+            src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=600&q=70"
             alt=""
             class="h-full w-full object-cover opacity-20 scale-105"
             loading="lazy" decoding="async"
@@ -303,13 +304,13 @@ const itineraryList = isRicardoKiara
             </p>
           </div>
 
-          <!-- Mini mapa interactivo -->
+          <!-- Mini mapa interactivo (carga diferida al acercarse para no bloquear el inicio) -->
           <div class="mt-5 overflow-hidden rounded-2xl border border-[#C5A059]/50 bg-[#FAF8F0] shadow-2xs">
             <iframe
               title="Mapa Parroquia de San Pedro Apóstol"
-              src="https://maps.google.com/maps?q=Parroquia+de+San+Pedro+Apostol+Torreon+25.5659072,-103.4318185&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              data-map-src="https://maps.google.com/maps?q=Parroquia+de+San+Pedro+Apostol+Torreon+25.5659072,-103.4318185&t=&z=16&ie=UTF8&iwloc=&output=embed"
               class="h-48 w-full border-0"
-              loading="lazy" decoding="async"
+              loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
@@ -367,7 +368,7 @@ const itineraryList = isRicardoKiara
         <!-- Fotografía del lugar -->
         <div class="relative h-56 w-full overflow-hidden bg-[#2C3E28]">
           <img
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=900&q=85"
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80"
             alt="Centro de Convenciones San Ángel"
             class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             loading="lazy" decoding="async"
@@ -399,13 +400,13 @@ const itineraryList = isRicardoKiara
             </p>
           </div>
 
-          <!-- Mini mapa interactivo -->
+          <!-- Mini mapa interactivo (carga diferida al acercarse para no bloquear el inicio) -->
           <div class="mt-5 overflow-hidden rounded-2xl border border-[#C5A059]/50 bg-[#FAF8F0] shadow-2xs">
             <iframe
               title="Mapa Centro de Convenciones San Ángel"
-              src="https://maps.google.com/maps?q=25.5546346,-103.4324767&t=&z=16&ie=UTF8&iwloc=&output=embed"
+              data-map-src="https://maps.google.com/maps?q=25.5546346,-103.4324767&t=&z=16&ie=UTF8&iwloc=&output=embed"
               class="h-48 w-full border-0"
-              loading="lazy" decoding="async"
+              loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
@@ -989,10 +990,16 @@ const itineraryList = isRicardoKiara
   }
 
   // Animación de difuminado suave entre las 3 fotos principales de portada en arco
+  // Se pausa automáticamente cuando el arco sale de la vista o la pestaña está en segundo plano
+  const heroArchContainer = document.getElementById('hero-arch-container');
   const heroSlidesEls = document.querySelectorAll('.hero-crossfade-slide');
   if (heroSlidesEls.length > 1) {
     let currentHeroIndex = 0;
-    setInterval(() => {
+    let heroIntervalId = null;
+    let isHeroVisible = true;
+
+    function stepHeroSlide() {
+      if (document.hidden || !isHeroVisible) return;
       const prevEl = heroSlidesEls[currentHeroIndex];
       currentHeroIndex = (currentHeroIndex + 1) % heroSlidesEls.length;
       const nextEl = heroSlidesEls[currentHeroIndex];
@@ -1005,7 +1012,66 @@ const itineraryList = isRicardoKiara
         nextEl.classList.remove('opacity-0', 'scale-105', 'z-0');
         nextEl.classList.add('opacity-100', 'scale-100', 'z-10');
       }
-    }, 4500);
+    }
+
+    function startHeroCycle() {
+      if (!heroIntervalId) {
+        heroIntervalId = setInterval(stepHeroSlide, 4500);
+      }
+    }
+
+    function stopHeroCycle() {
+      if (heroIntervalId) {
+        clearInterval(heroIntervalId);
+        heroIntervalId = null;
+      }
+    }
+
+    startHeroCycle();
+
+    if ('IntersectionObserver' in window && heroArchContainer) {
+      const heroObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isHeroVisible = entry.isIntersecting;
+            if (isHeroVisible) {
+              startHeroCycle();
+            } else {
+              stopHeroCycle();
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+      heroObserver.observe(heroArchContainer);
+    }
+  }
+
+  // Carga diferida de mapas interactivos cuando el invitado se acerca a la sección de ubicaciones
+  const lazyMaps = document.querySelectorAll('iframe[data-map-src]');
+  if ('IntersectionObserver' in window && lazyMaps.length > 0) {
+    const mapObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const iframe = entry.target;
+            const src = iframe.getAttribute('data-map-src');
+            if (src) {
+              iframe.setAttribute('src', src);
+              iframe.removeAttribute('data-map-src');
+            }
+            mapObserver.unobserve(iframe);
+          }
+        });
+      },
+      { rootMargin: '450px 0px' }
+    );
+    lazyMaps.forEach((iframe) => mapObserver.observe(iframe));
+  } else {
+    lazyMaps.forEach((iframe) => {
+      const src = iframe.getAttribute('data-map-src');
+      if (src) iframe.setAttribute('src', src);
+    });
   }
 
   // Interactividad del Código de Vestimenta (Invitadas / Invitados)
@@ -1127,38 +1193,38 @@ const itineraryList = isRicardoKiara
     });
   });
 
-  // Cuenta regresiva precisa
+  // Cuenta regresiva precisa con referencias en caché y actualización selectiva del DOM
+  const targetTime = new Date(targetIsoDate).getTime();
+  const elD = document.getElementById('cd-days');
+  const elH = document.getElementById('cd-hours');
+  const elM = document.getElementById('cd-minutes');
+  const elS = document.getElementById('cd-seconds');
+  let prevD = '';
+  let prevH = '';
+  let prevM = '';
+  let prevS = '';
+  const pad = (n) => String(n).padStart(2, '0');
+
   function updateCountdown() {
-    const target = new Date(targetIsoDate).getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
+    const diff = targetTime - Date.now();
 
     if (diff <= 0) {
-      const elD = document.getElementById('cd-days');
-      const elH = document.getElementById('cd-hours');
-      const elM = document.getElementById('cd-minutes');
-      const elS = document.getElementById('cd-seconds');
-      if (elD) elD.textContent = '00';
-      if (elH) elH.textContent = '00';
-      if (elM) elM.textContent = '00';
-      if (elS) elS.textContent = '00';
+      if (elD && prevD !== '00') { elD.textContent = '00'; prevD = '00'; }
+      if (elH && prevH !== '00') { elH.textContent = '00'; prevH = '00'; }
+      if (elM && prevM !== '00') { elM.textContent = '00'; prevM = '00'; }
+      if (elS && prevS !== '00') { elS.textContent = '00'; prevS = '00'; }
       return;
     }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    const dStr = pad(Math.floor(diff / 86400000));
+    const hStr = pad(Math.floor((diff % 86400000) / 3600000));
+    const mStr = pad(Math.floor((diff % 3600000) / 60000));
+    const sStr = pad(Math.floor((diff % 60000) / 1000));
 
-    const pad = (n) => String(n).padStart(2, '0');
-    const elD = document.getElementById('cd-days');
-    const elH = document.getElementById('cd-hours');
-    const elM = document.getElementById('cd-minutes');
-    const elS = document.getElementById('cd-seconds');
-    if (elD) elD.textContent = pad(days);
-    if (elH) elH.textContent = pad(hours);
-    if (elM) elM.textContent = pad(minutes);
-    if (elS) elS.textContent = pad(seconds);
+    if (elD && dStr !== prevD) { elD.textContent = dStr; prevD = dStr; }
+    if (elH && hStr !== prevH) { elH.textContent = hStr; prevH = hStr; }
+    if (elM && mStr !== prevM) { elM.textContent = mStr; prevM = mStr; }
+    if (elS && sStr !== prevS) { elS.textContent = sStr; prevS = sStr; }
   }
 
   updateCountdown();

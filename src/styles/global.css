@@ -12,14 +12,9 @@
     @apply antialiased text-gray-900 bg-editorial-bg;
     overscroll-behavior-y: none;
   }
-
-  .font-aevum {
-    font-family: 'Bodoni Moda SC', serif;
-    font-optical-sizing: auto;
-  }
 }
 
-/* Ocultar barra de scroll pero permitir navegacion */
+/* Ocultar barra de scroll pero permitir navegación fluida */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -28,113 +23,14 @@
   scrollbar-width: none;
 }
 
-/* Contenedor Reels Snap */
-.reels-container {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-
-.reel-slide {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-/* Animaciones Momentiia / Arco 2 */
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(2deg);
-  }
-}
-
-@keyframes floatSlowReverse {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(10px) rotate(-2deg);
-  }
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes pulseWave {
-  0%, 100% {
-    transform: scaleY(0.3);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-@keyframes phoneInnerScroll {
-  0%, 15% {
-    transform: translateY(0);
-  }
-  45%, 65% {
-    transform: translateY(-28%);
-  }
-  85%, 100% {
-    transform: translateY(0);
-  }
-}
-
-.animate-float {
-  animation: floatSlow 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: floatSlowReverse 7s ease-in-out infinite;
-}
-
-.animate-float-slow {
-  animation: floatSlow 9s ease-in-out infinite;
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 42s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-.animate-phone-scroll {
-  animation: phoneInnerScroll 14s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-}
-
-/* Scroll Reveal */
-.reveal-init {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.reveal-visible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
-
-/* Animaciones Editoriales Ligeras (60fps en cualquier celular, solo GPU transform + opacity) */
+/* Animaciones Editoriales Ligeras (60fps en móvil, solo GPU transform + opacity) */
 .inv-reveal {
   opacity: 0;
   transform: translate3d(0, 24px, 0);
+  backface-visibility: hidden;
   transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .inv-reveal.is-visible {
@@ -142,24 +38,24 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Despliegue suave tipo acordeón para opciones de calendario */
+/* Despliegue suave tipo acordeón para opciones de calendario y vestimenta */
 .cal-collapse-wrapper {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translate3d(0, -6px, 0);
   pointer-events: none;
   transition:
-    grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    margin-top 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    grid-template-rows 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    margin-top 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cal-collapse-wrapper.is-open {
   grid-template-rows: 1fr;
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
   pointer-events: auto;
   margin-top: 1rem;
 }
@@ -170,21 +66,22 @@
 
 .inv-stagger-item {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translate3d(0, 18px, 0);
+  backface-visibility: hidden;
   transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .is-visible .inv-stagger-item,
 .inv-stagger-item.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .inv-line-grow {
   transform: scaleX(0);
-  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
   transform-origin: center;
 }
 
@@ -193,18 +90,7 @@
   transform: scaleX(1);
 }
 
-@keyframes subtlePulseRing {
-  0% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.35);
-  }
-  70% {
-    box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
-}
-
-.btn-whatsapp-glow {
-  animation: subtlePulseRing 2.8s infinite;
+.hero-crossfade-slide {
+  backface-visibility: hidden;
+  will-change: opacity, transform;
 }

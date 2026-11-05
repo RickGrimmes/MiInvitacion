@@ -24,10 +24,17 @@ import ToastStack from '../components/ToastStack.astro';
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <!-- Preconexiones críticas para fuentes e imágenes -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Faculty+Glyphic&family=Roboto:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    <!-- Preload de la primera imagen de portada (LCP) -->
+    <link rel="preload" as="image" href="/images/hero1.jpeg" fetchpriority="high" />
+    <!-- Carga unificada únicamente de las fuentes utilizadas en la invitación -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class={theme === 'dark' ? 'bg-[#14161b] text-gray-100 min-h-screen' : 'bg-editorial-bg text-gray-900 min-h-screen'}>
     <slot />
