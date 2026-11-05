@@ -83,7 +83,7 @@ const itineraryList = isRicardoKiara
       
       <!-- Portada Fotográfica 100% de ancho, más larga, tocando el techo y con forma de arco arriba -->
       <div
-        class="relative h-[580px] sm:h-[640px] w-full overflow-hidden rounded-t-full"
+        class="relative h-[535px] sm:h-[585px] w-full overflow-hidden rounded-t-full"
         style="-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%); mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%);"
       >
         {heroSlides.map((slide, index) => (
@@ -104,17 +104,17 @@ const itineraryList = isRicardoKiara
 
       <div class="px-5">
       <!-- Hero Editorial de Alta Gama -->
-      <header class="inv-reveal relative z-30 mt-2 text-center">
+      <header class="inv-reveal relative z-30 -mt-3 text-center">
         <span class="block text-sm sm:text-base font-bold tracking-[0.35em] text-[#608B56] uppercase">
           Nuestra Boda
         </span>
 
         <!-- Nombres de los Novios -->
-        <div class="mt-6 space-y-3">
+        <div class="mt-4 space-y-2">
           <h1 class="font-serif text-3xl font-normal tracking-wide text-[#233120] uppercase sm:text-4xl leading-snug">
             {coupleNames.groom}
           </h1>
-          <div class="flex items-center justify-center gap-4 py-1.5">
+          <div class="flex items-center justify-center gap-4 py-1">
             <div class="inv-line-grow h-0.5 w-16 bg-gradient-to-r from-transparent to-[#C5A059]"></div>
             <span class="font-serif text-3xl italic text-[#C5A059]">&</span>
             <div class="inv-line-grow h-0.5 w-16 bg-gradient-to-l from-transparent to-[#C5A059]"></div>
@@ -125,7 +125,7 @@ const itineraryList = isRicardoKiara
         </div>
 
         <!-- Fecha formal -->
-        <p class="mt-7 font-serif text-2xl sm:text-3xl italic font-medium text-[#608B56]">
+        <p class="mt-5 font-serif text-2xl sm:text-3xl italic font-medium text-[#608B56]">
           {coupleNames.formalDate}
         </p>
 

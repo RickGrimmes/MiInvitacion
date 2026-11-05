@@ -1,45 +1,87 @@
 ---
-// Widget de música para la invitación
-// Soporta múltiples pistas, selector de lista y reproducción fluida
+// Widget de música para la invitación (Temática: La Princesa y el Sapo)
+// Fondo nocturno verde bosque unificado para que la luciérnaga y la luna luzcan libres
 ---
 
-<div id="music-player-container" class="fixed bottom-6 right-4 z-40 transition-all duration-300 sm:bottom-6 sm:right-6">
+<div id="music-player-container" class="fixed bottom-5 right-3 sm:bottom-6 sm:right-6 z-40 transition-all duration-300">
   
-  <!-- Botón flotante colapsado (Badge de vinilo en tonos Verde & Dorado) -->
+  <!-- Pastilla flotante con mini barra de Luciérnaga hacia la Luna -->
   <div
     id="music-pill"
-    class="group flex items-center gap-3 rounded-full border-2 border-[#C5A059]/45 bg-[#FAF8F0]/95 px-4 py-2.5 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl select-none"
+    class="group flex items-center gap-3 rounded-full border-2 border-[#C5A059]/75 bg-[#1E2B1B]/95 px-3.5 py-2 shadow-xl backdrop-blur-md transition-all duration-300 hover:shadow-2xl select-none"
   >
-    <!-- Vinilo giratorio -->
+    <!-- Medallón de vinilo -->
     <button
       id="btn-vinyl-toggle"
       type="button"
-      class="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#2C3E28] ring-2 ring-[#C5A059]/60 transition-transform active:scale-90"
-      aria-label="Abrir lista de canciones"
+      class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#141E12] ring-2 ring-[#C5A059]/80 transition-transform active:scale-90"
+      aria-label="Abrir reproductor de música"
     >
-      <div id="vinyl-disc" class="flex h-9 w-9 items-center justify-center rounded-full bg-[#2C3E28] transition-transform">
-        <div class="h-3.5 w-3.5 rounded-full border-2 border-[#E6DEA6] bg-[#608B56]"></div>
+      <div id="vinyl-disc" class="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-[#141E12] via-[#233120] to-[#2C3E28]">
+        <div class="absolute h-7 w-7 rounded-full border border-[#C5A059]/30"></div>
+        <div class="flex h-4 w-4 items-center justify-center rounded-full border border-[#C5A059] bg-[#FAF8F0]">
+          <div class="h-1.5 w-1.5 rounded-full bg-[#1E2B1B]"></div>
+        </div>
       </div>
     </button>
 
-    <!-- Información y acceso a la lista -->
+    <!-- Información de canción + Mini camino libre de la luciérnaga a la luna -->
     <button
       id="btn-pill-info"
       type="button"
-      class="text-left pr-1 cursor-pointer"
-      aria-label="Abrir panel de música"
+      class="flex flex-col text-left pr-1 cursor-pointer min-w-[152px] sm:min-w-[174px]"
+      aria-label="Abrir controles de música"
     >
-      <span class="block text-[10px] font-bold tracking-widest text-[#608B56] uppercase">Música</span>
-      <span id="current-track-mini-label" class="block max-w-[115px] truncate font-serif text-sm font-semibold text-[#2C3E28]">
-        Canon in D
-      </span>
+      <div class="flex items-center justify-between gap-2 w-full">
+        <span class="text-[9px] font-bold tracking-[0.22em] text-[#DCD888] uppercase">Música</span>
+        <span id="current-track-mini-label" class="max-w-[105px] sm:max-w-[120px] truncate font-serif text-xs sm:text-sm font-bold text-[#FAF8F0]">
+          Canon in D
+        </span>
+      </div>
+
+      <!-- Mini barra libre: Luciérnaga viajando a la Luna con destello dorado -->
+      <div class="relative mt-2 mb-0.5 flex items-center w-full h-4">
+        <!-- Riel sutil -->
+        <div class="relative h-1.5 w-full rounded-full bg-[#FAF8F0]/15 mr-5 overflow-visible">
+          <!-- Estela de destello dorado -->
+          <div
+            id="mini-track-progress"
+            class="firefly-trail relative h-full w-0 rounded-full transition-all duration-150"
+          >
+            <!-- Partículas de polvo dorado en el camino -->
+            <span class="sparkle-dot sparkle-1"></span>
+            <span class="sparkle-dot sparkle-2"></span>
+            <span class="sparkle-dot sparkle-3"></span>
+
+            <!-- Luciérnaga en la punta del destello -->
+            <span class="firefly-node absolute -right-2.5 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center">
+              <span class="firefly-aura absolute inset-0 rounded-full"></span>
+              <svg class="relative h-4 w-4 overflow-visible" viewBox="0 0 24 24" fill="none">
+                <ellipse class="firefly-wing-l" cx="11" cy="8.5" rx="4.2" ry="2.2" transform="rotate(-28 11 8.5)" fill="#FAF8F0" fill-opacity="0.9" />
+                <ellipse class="firefly-wing-r" cx="13.5" cy="8.5" rx="4.2" ry="2.2" transform="rotate(25 13.5 8.5)" fill="#E6DEA6" fill-opacity="0.75" />
+                <ellipse cx="14.5" cy="12.5" rx="2.6" ry="1.8" fill="#141E12" stroke="#C5A059" stroke-width="0.6" />
+                <circle cx="9.5" cy="13" r="3.2" fill="#FFF394" />
+                <circle cx="9.5" cy="13" r="1.8" fill="#FFFFFF" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Luna creciente dorada al final del camino -->
+        <span class="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center" title="La Luna">
+          <svg class="h-4 w-4 overflow-visible" viewBox="0 0 24 24" fill="none">
+            <path d="M20.5 13.2A8.5 8.5 0 1 1 11.8 3.5a6.6 6.6 0 0 0 8.7 9.7z" fill="#FFF394" stroke="#C5A059" stroke-width="1.3" stroke-linejoin="round" />
+            <circle cx="18.5" cy="5.5" r="1.3" fill="#FFFFFF" />
+          </svg>
+        </span>
+      </div>
     </button>
 
     <!-- Botón directo de Play / Pause -->
     <button
       id="btn-pill-play-pause"
       type="button"
-      class="rounded-full bg-[#608B56] p-2 text-white transition hover:bg-[#4c7043] active:scale-90 shadow-xs"
+      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#DCD888]/70 bg-[#2C3E28] text-[#FFF394] transition hover:bg-[#3B5236] active:scale-90 shadow-xs"
       aria-label="Reproducir o pausar música"
     >
       <svg id="icon-mini-play" class="h-4 w-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
@@ -51,23 +93,24 @@
     </button>
   </div>
 
-  <!-- Panel desplegable con controles y selección de canciones -->
+  <!-- Panel desplegable completo con fondo verde bosque nocturno y barra de Luciérnaga libre -->
   <div
     id="music-detail-panel"
-    class="pointer-events-none absolute bottom-14 right-0 w-80 translate-y-3 opacity-0 rounded-2xl border border-gray-200/90 bg-white/95 p-5 shadow-2xl backdrop-blur-md transition-all duration-300"
+    style="background-color: #1E2B1B;"
+    class="pointer-events-none absolute bottom-16 right-0 w-80 translate-y-3 opacity-0 rounded-3xl border-2 border-[#C5A059]/75 bg-[#1E2B1B] p-5 shadow-2xl backdrop-blur-md transition-all duration-300"
   >
     <!-- Cabecera del panel -->
-    <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+    <div class="flex items-center justify-between border-b border-[#C5A059]/25 pb-3">
       <div class="flex items-center gap-2">
-        <svg class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="h-4 w-4 text-[#DCD888]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
         </svg>
-        <span class="text-xs font-semibold tracking-wider text-gray-400 uppercase">Música Seleccionada</span>
+        <span class="text-xs font-bold tracking-[0.2em] text-[#DCD888] uppercase">Música de Nuestra Boda</span>
       </div>
       <button
         id="btn-close-music-panel"
         type="button"
-        class="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition"
+        class="rounded-full p-1 text-[#E6DEA6]/75 hover:bg-[#FAF8F0]/10 hover:text-[#FAF8F0] transition"
         aria-label="Cerrar panel de música"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -76,30 +119,106 @@
       </button>
     </div>
 
-    <!-- Información de pista actual -->
+    <!-- Disco de vinilo superior ESTÁTICO con diseño ornamental -->
     <div class="mt-4 text-center">
-      <div id="panel-vinyl-disc" class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-tr from-gray-950 via-gray-800 to-gray-700 shadow-inner transition-transform">
-        <div class="h-16 w-16 rounded-full border border-gray-600/40"></div>
-        <div class="absolute h-10 w-10 rounded-full border border-gray-600/40"></div>
-        <div class="absolute h-6 w-6 rounded-full bg-white shadow-sm flex items-center justify-center">
-          <div class="h-2 w-2 rounded-full bg-gray-900"></div>
+      <div
+        id="panel-vinyl-disc"
+        class="relative mx-auto flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#111A10] via-[#1C2A19] to-[#2C3E28] ring-2 ring-[#C5A059]/80 shadow-lg"
+      >
+        <!-- Surcos concéntricos dorados del vinilo -->
+        <div class="pointer-events-none absolute inset-1.5 rounded-full border border-[#DCD888]/20"></div>
+        <div class="pointer-events-none absolute inset-3 rounded-full border border-[#DCD888]/15"></div>
+        <div class="pointer-events-none absolute inset-5 rounded-full border border-[#C5A059]/25"></div>
+        <!-- Brillo satinado estático -->
+        <div class="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_25%,rgba(255,243,148,0.14),transparent_55%)]"></div>
+        <!-- Etiqueta central crema y dorado -->
+        <div class="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#C5A059] bg-[#FAF8F0] shadow-xs">
+          <div class="h-2.5 w-2.5 rounded-full border border-[#C5A059] bg-[#1E2B1B]"></div>
         </div>
       </div>
 
-      <h4 id="panel-track-title" class="mt-3 font-serif text-base font-bold text-gray-900">
+      <h4 id="panel-track-title" class="mt-3 font-serif text-lg font-bold text-[#FAF8F0]">
         Canon in D
       </h4>
-      <p id="panel-track-artist" class="text-xs text-gray-500">
-        Johann Pachelbel (Piano & Cello)
+      <p id="panel-track-artist" class="text-xs text-[#E6DEA6]/80">
+        Johann Pachelbel (Piano & Cuerdas)
       </p>
     </div>
 
-    <!-- Barra de progreso interactiva -->
-    <div class="mt-4">
-      <div id="panel-progress-bar-wrap" class="relative h-1.5 w-full cursor-pointer overflow-hidden rounded-full bg-gray-100">
-        <div id="panel-track-progress" class="h-full w-0 bg-gray-900 transition-all duration-150"></div>
+    <!-- Barra de Progreso Libre (sin tableta encerrándola): Luciérnaga viajando hacia la Luna -->
+    <div class="mt-5">
+      <div
+        id="panel-progress-bar-wrap"
+        class="group/bar relative flex items-center h-9 w-full cursor-pointer px-1 select-none"
+        title="Toca para adelantar o atrasar la canción"
+      >
+        <!-- Estrellitas sutiles libres en el fondo -->
+        <span class="pointer-events-none absolute left-1/4 top-1.5 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
+        <span class="pointer-events-none absolute left-1/2 bottom-1.5 h-1 w-1 rounded-full bg-[#FFF59D]/35"></span>
+        <span class="pointer-events-none absolute left-2/3 top-2 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
+
+        <!-- Riel del camino hacia la luna -->
+        <div class="relative h-2 w-full rounded-full bg-[#FAF8F0]/15 mr-8 overflow-visible">
+          <!-- Camino iluminado por el destello dorado de la luciérnaga -->
+          <div
+            id="panel-track-progress"
+            class="firefly-trail relative h-full w-0 rounded-full transition-all duration-150"
+          >
+            <!-- Destellos dorados flotando en la estela -->
+            <span class="sparkle-dot sparkle-1"></span>
+            <span class="sparkle-dot sparkle-2"></span>
+            <span class="sparkle-dot sparkle-3"></span>
+            <span class="sparkle-dot sparkle-4"></span>
+
+            <!-- La Luciérnaga (Ray) volando hacia la Luna -->
+            <span
+              id="panel-firefly-knob"
+              class="firefly-node absolute -right-3.5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center transition-transform duration-200 group-hover/bar:scale-110"
+            >
+              <!-- Resplandor dorado ligero (radial gradient) -->
+              <span class="firefly-aura absolute inset-0 rounded-full"></span>
+
+              <svg class="relative h-6 w-6 overflow-visible" viewBox="0 0 28 28" fill="none">
+                <!-- Destellitos que va soltando detrás -->
+                <circle class="sparkle-trail-p1" cx="3" cy="15" r="1.2" fill="#FFF59D" />
+                <circle class="sparkle-trail-p2" cx="6" cy="11" r="0.9" fill="#DCD888" />
+                <!-- Alitas delicadas -->
+                <ellipse class="firefly-wing-l" cx="13.5" cy="9.5" rx="5.2" ry="2.6" transform="rotate(-26 13.5 9.5)" fill="#FAF8F0" fill-opacity="0.92" />
+                <ellipse class="firefly-wing-r" cx="16.5" cy="9.5" rx="5" ry="2.4" transform="rotate(24 16.5 9.5)" fill="#E6DEA6" fill-opacity="0.8" />
+                <!-- Cuerpo y antenitas -->
+                <ellipse cx="17.5" cy="14.5" rx="3.2" ry="2.1" fill="#141E12" stroke="#C5A059" stroke-width="0.8" />
+                <path d="M19.5 13.2c1.2-1.2 2.4-1.5 3.2-1.2M19.8 14.5c1.3-.3 2.4.2 3 1" stroke="#DCD888" stroke-width="0.9" stroke-linecap="round" />
+                <!-- Abdomen de luz dorada intensa -->
+                <circle cx="11.5" cy="15.2" r="4" fill="#FFF394" />
+                <circle cx="11.5" cy="15.2" r="2.2" fill="#FFFFFF" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- La Luna Creciente + Estrella Evangeline libre a la derecha -->
+        <span class="pointer-events-none absolute right-0.5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center">
+          <span class="moon-aura absolute inset-0 rounded-full"></span>
+          <svg class="relative h-6 w-6 overflow-visible" viewBox="0 0 24 24" fill="none">
+            <!-- Luna creciente dorada -->
+            <path
+              d="M20.5 13.2A8.5 8.5 0 1 1 11.8 3.5a6.6 6.6 0 0 0 8.7 9.7z"
+              fill="#FFF394"
+              stroke="#C5A059"
+              stroke-width="1.3"
+              stroke-linejoin="round"
+            />
+            <!-- Estrella Evangeline junto a la luna -->
+            <path
+              class="evangeline-star"
+              d="M19 4l.6 1.6L21.2 6l-1.6.6L19 8.2l-.6-1.6L16.8 6l1.6-.4L19 4z"
+              fill="#FFFFFF"
+            />
+          </svg>
+        </span>
       </div>
-      <div class="mt-1 flex justify-between text-[10px] text-gray-400 font-mono">
+
+      <div class="mt-1 flex justify-between text-[11px] text-[#E6DEA6]/75 font-mono px-1">
         <span id="panel-time-current">0:00</span>
         <span id="panel-time-duration">0:20</span>
       </div>
@@ -111,7 +230,7 @@
       <button
         id="btn-prev-track"
         type="button"
-        class="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-950 transition active:scale-90"
+        class="rounded-full p-2 text-[#E6DEA6] hover:bg-[#FAF8F0]/10 hover:text-[#FFF394] transition active:scale-90"
         aria-label="Pista anterior"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -123,13 +242,13 @@
       <button
         id="btn-play-pause-panel"
         type="button"
-        class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950 text-white shadow-md transition hover:bg-black active:scale-95"
+        class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#C5A059] bg-[#2C3E28] text-[#FFF394] shadow-md transition hover:bg-[#3B5236] active:scale-95"
         aria-label="Reproducir o pausar"
       >
-        <svg id="panel-icon-play" class="h-5 w-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+        <svg id="panel-icon-play" class="h-5 w-5 ml-0.5 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z" />
         </svg>
-        <svg id="panel-icon-pause" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+        <svg id="panel-icon-pause" class="hidden h-5 w-5 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
         </svg>
       </button>
@@ -138,7 +257,7 @@
       <button
         id="btn-next-track"
         type="button"
-        class="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-950 transition active:scale-90"
+        class="rounded-full p-2 text-[#E6DEA6] hover:bg-[#FAF8F0]/10 hover:text-[#FFF394] transition active:scale-90"
         aria-label="Siguiente pista"
       >
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,9 +267,9 @@
     </div>
 
     <!-- Lista de canciones disponibles -->
-    <div class="mt-4 border-t border-gray-100 pt-3">
-      <span class="block text-[10px] font-semibold tracking-wider text-gray-400 uppercase">Lista de canciones</span>
-      <div id="playlist-container" class="mt-2 space-y-1">
+    <div class="mt-4 border-t border-[#C5A059]/25 pt-3">
+      <span class="block text-[10px] font-bold tracking-[0.2em] text-[#DCD888] uppercase">Lista de canciones</span>
+      <div id="playlist-container" class="mt-2 space-y-1.5">
         <!-- Renderizado dinámicamente con JS -->
       </div>
     </div>
@@ -160,12 +279,145 @@
   <audio id="wedding-audio-element" preload="metadata"></audio>
 </div>
 
+<style>
+  /* Estela dorada que va dejando la luciérnaga en su camino (sin filtros pesados) */
+  .firefly-trail {
+    background: linear-gradient(
+      90deg,
+      rgba(197, 160, 89, 0.2) 0%,
+      rgba(220, 216, 136, 0.7) 55%,
+      #FFF394 92%,
+      #FFFFFF 100%
+    );
+    box-shadow: 0 0 8px rgba(255, 243, 148, 0.55);
+  }
+
+  /* Halo dorado ligero usando radial-gradient (cero blur en GPU) */
+  .firefly-aura {
+    background: radial-gradient(
+      circle,
+      rgba(255, 245, 157, 0.78) 0%,
+      rgba(220, 216, 136, 0.35) 48%,
+      rgba(197, 160, 89, 0) 75%
+    );
+    animation: fireflyPulse 1.8s ease-in-out infinite;
+  }
+
+  .moon-aura {
+    background: radial-gradient(
+      circle,
+      rgba(255, 243, 148, 0.35) 0%,
+      rgba(255, 243, 148, 0) 72%
+    );
+  }
+
+  /* Puntos de destello dorado a lo largo de la estela */
+  .sparkle-dot {
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background-color: #FFF9C4;
+    transform: translate3d(0, -50%, 0);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .sparkle-1 {
+    right: 12px;
+    top: 15%;
+    animation: sparkleTwinkle 1.4s ease-in-out infinite;
+  }
+  .sparkle-2 {
+    right: 24px;
+    top: 85%;
+    width: 3px;
+    height: 3px;
+    animation: sparkleTwinkle 1.7s ease-in-out 0.3s infinite;
+  }
+  .sparkle-3 {
+    right: 40px;
+    top: 25%;
+    width: 3.5px;
+    height: 3.5px;
+    animation: sparkleTwinkle 1.5s ease-in-out 0.6s infinite;
+  }
+  .sparkle-4 {
+    right: 60px;
+    top: 75%;
+    width: 3px;
+    height: 3px;
+    animation: sparkleTwinkle 1.9s ease-in-out 0.2s infinite;
+  }
+
+  /* Flote sutil de la luciérnaga y aleteo ligero cuando suena la música */
+  .is-playing-firefly .firefly-node {
+    animation: fireflyHover 2.2s ease-in-out infinite;
+  }
+
+  .is-playing-firefly .firefly-wing-l {
+    transform-origin: 13px 11px;
+    animation: wingFlutter 0.35s ease-in-out infinite alternate;
+  }
+
+  .is-playing-firefly .firefly-wing-r {
+    transform-origin: 15px 11px;
+    animation: wingFlutter 0.35s ease-in-out 0.15s infinite alternate;
+  }
+
+  .sparkle-trail-p1 {
+    animation: sparkleTwinkle 1.1s ease-in-out infinite;
+  }
+  .sparkle-trail-p2 {
+    animation: sparkleTwinkle 1.4s ease-in-out 0.4s infinite;
+  }
+  .evangeline-star {
+    animation: sparkleTwinkle 2.2s ease-in-out infinite;
+  }
+
+  @keyframes fireflyPulse {
+    0%, 100% {
+      transform: scale(0.92);
+      opacity: 0.75;
+    }
+    50% {
+      transform: scale(1.18);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fireflyHover {
+    0%, 100% {
+      transform: translate3d(0, -55%, 0);
+    }
+    50% {
+      transform: translate3d(0, -45%, 0);
+    }
+  }
+
+  @keyframes sparkleTwinkle {
+    0%, 100% {
+      opacity: 0.25;
+      transform: scale(0.75);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes wingFlutter {
+    0% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0.95;
+    }
+  }
+</style>
+
 <script>
-  // =========================================================================
-  // LISTA DE CANCIONES CONFIGURABLE:
-  // Puedes colocar tus archivos (.mp3 o .wav) en: apps/web/public/music/
-  // y agregarlos aquí abajo con la ruta: /music/nombre-del-archivo.mp3
-  // =========================================================================
   const tracks = [
     {
       title: 'Canon in D',
@@ -191,29 +443,30 @@
   let isPlaying = false;
   let isPanelOpen = false;
 
+  const container = document.getElementById('music-player-container');
   const audio = document.getElementById('wedding-audio-element');
   const btnVinylToggle = document.getElementById('btn-vinyl-toggle');
   const btnPillInfo = document.getElementById('btn-pill-info');
   const btnPillPlayPause = document.getElementById('btn-pill-play-pause');
-
   const detailPanel = document.getElementById('music-detail-panel');
   const closePanelBtn = document.getElementById('btn-close-music-panel');
-  const vinylDisc = document.getElementById('vinyl-disc');
-  const panelVinylDisc = document.getElementById('panel-vinyl-disc');
 
-  const miniTitle = document.getElementById('current-track-mini-label');
   const miniIconPlay = document.getElementById('icon-mini-play');
   const miniIconPause = document.getElementById('icon-mini-pause');
+  const panelIconPlay = document.getElementById('panel-icon-play');
+  const panelIconPause = document.getElementById('panel-icon-pause');
 
+  const miniLabel = document.getElementById('current-track-mini-label');
   const panelTitle = document.getElementById('panel-track-title');
   const panelArtist = document.getElementById('panel-track-artist');
+
+  const miniProgress = document.getElementById('mini-track-progress');
   const panelProgress = document.getElementById('panel-track-progress');
   const panelProgressBarWrap = document.getElementById('panel-progress-bar-wrap');
   const panelTimeCurrent = document.getElementById('panel-time-current');
   const panelTimeDuration = document.getElementById('panel-time-duration');
+
   const panelPlayPauseBtn = document.getElementById('btn-play-pause-panel');
-  const panelIconPlay = document.getElementById('panel-icon-play');
-  const panelIconPause = document.getElementById('panel-icon-pause');
   const btnPrev = document.getElementById('btn-prev-track');
   const btnNext = document.getElementById('btn-next-track');
   const playlistContainer = document.getElementById('playlist-container');
@@ -221,38 +474,54 @@
   function renderPlaylist() {
     if (!playlistContainer) return;
     playlistContainer.innerHTML = '';
+
     tracks.forEach((track, idx) => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      const isActive = idx === currentTrackIndex;
-      item.className = `w-full text-left flex items-center justify-between p-2 rounded-xl text-xs transition ${
-        isActive
-          ? 'bg-gray-900 text-white font-medium shadow-xs'
-          : 'text-gray-700 hover:bg-gray-100'
+      const active = idx === currentTrackIndex;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `w-full flex items-center justify-between rounded-xl px-3 py-2 text-left text-xs transition ${
+        active
+          ? 'bg-[#2C3E28] border border-[#C5A059]/55 text-[#FAF8F0] font-semibold shadow-xs'
+          : 'text-[#FAF8F0]/80 hover:bg-[#FAF8F0]/10'
       }`;
-      item.innerHTML = `
-        <span class="truncate pr-2">${idx + 1}. ${track.title}</span>
-        <span class="text-[10px] opacity-75 font-mono">${track.duration}</span>
+
+      btn.innerHTML = `
+        <div class="flex items-center gap-2.5 truncate">
+          <span class="inline-block h-2 w-2 rounded-full ${active ? 'bg-[#FFF394] animate-pulse' : 'bg-[#608B56]'}"></span>
+          <div class="truncate">
+            <p class="truncate font-serif text-sm ${active ? 'text-[#FAF8F0]' : 'text-[#FAF8F0]/90'}">${track.title}</p>
+            <p class="truncate text-[10px] ${active ? 'text-[#DCD888]' : 'text-[#E6DEA6]/65'}">${track.artist}</p>
+          </div>
+        </div>
+        <span class="ml-2 font-mono text-[10px] ${active ? 'text-[#FFF394]' : 'text-[#DCD888]/75'}">${track.duration}</span>
       `;
-      item.addEventListener('click', () => {
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         selectTrack(idx, true);
       });
-      playlistContainer.appendChild(item);
+
+      playlistContainer.appendChild(btn);
     });
+  }
+
+  function setProgressWidth(percent) {
+    const clamped = Math.max(0, Math.min(100, percent));
+    if (panelProgress) panelProgress.style.width = `${clamped}%`;
+    if (miniProgress) miniProgress.style.width = `${clamped}%`;
   }
 
   function loadTrack(index) {
     currentTrackIndex = index;
     const track = tracks[currentTrackIndex];
-    if (audio) {
-      audio.src = track.src;
-      audio.load();
-    }
-    if (miniTitle) miniTitle.textContent = track.title;
+    if (!track || !audio) return;
+
+    audio.src = track.src;
+    if (miniLabel) miniLabel.textContent = track.title;
     if (panelTitle) panelTitle.textContent = track.title;
     if (panelArtist) panelArtist.textContent = track.artist;
     if (panelTimeDuration) panelTimeDuration.textContent = track.duration;
-    if (panelProgress) panelProgress.style.width = '0%';
+    setProgressWidth(0);
     if (panelTimeCurrent) panelTimeCurrent.textContent = '0:00';
     renderPlaylist();
   }
@@ -267,15 +536,13 @@
   function updatePlayState(playing) {
     isPlaying = playing;
     if (playing) {
-      vinylDisc?.classList.add('animate-spin');
-      panelVinylDisc?.classList.add('animate-spin');
+      container?.classList.add('is-playing-firefly');
       miniIconPlay?.classList.add('hidden');
       miniIconPause?.classList.remove('hidden');
       panelIconPlay?.classList.add('hidden');
       panelIconPause?.classList.remove('hidden');
     } else {
-      vinylDisc?.classList.remove('animate-spin');
-      panelVinylDisc?.classList.remove('animate-spin');
+      container?.classList.remove('is-playing-firefly');
       miniIconPlay?.classList.remove('hidden');
       miniIconPause?.classList.add('hidden');
       panelIconPlay?.classList.remove('hidden');
@@ -333,13 +600,11 @@
     }
   }
 
-  // Clic en el botón Play/Pause directo en la pastilla
   btnPillPlayPause?.addEventListener('click', (e) => {
     e.stopPropagation();
     togglePlay();
   });
 
-  // Clic en el disco vinilo de la pastilla abre el panel
   btnVinylToggle?.addEventListener('click', (e) => {
     e.stopPropagation();
     togglePanel();
@@ -348,7 +613,6 @@
     }
   });
 
-  // Clic en el texto de la pastilla abre el panel
   btnPillInfo?.addEventListener('click', (e) => {
     e.stopPropagation();
     togglePanel();
@@ -357,6 +621,21 @@
   closePanelBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
     closePanel();
+  });
+
+  // Cerrar el menú de música al tocar o hacer clic en cualquier parte fuera de él
+  document.addEventListener('pointerdown', (e) => {
+    if (!isPanelOpen) return;
+    const target = e.target;
+    if (target instanceof Node && container && !container.contains(target)) {
+      closePanel();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (isPanelOpen && e.key === 'Escape') {
+      closePanel();
+    }
   });
 
   panelPlayPauseBtn?.addEventListener('click', (e) => {
@@ -376,20 +655,19 @@
     selectTrack(next, true);
   });
 
-  // Progreso interactivo al hacer clic en la barra
+  // Progreso interactivo al tocar cualquier punto del camino hacia la luna
   panelProgressBarWrap?.addEventListener('click', (e) => {
     if (!audio || !audio.duration) return;
     const rect = panelProgressBarWrap.getBoundingClientRect();
-    const clickPos = (e.clientX - rect.left) / rect.width;
+    const clickPos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     audio.currentTime = clickPos * audio.duration;
   });
 
-  // Eventos de audio nativo
   if (audio) {
     audio.addEventListener('timeupdate', () => {
       if (!audio.duration || isNaN(audio.duration)) return;
       const progress = (audio.currentTime / audio.duration) * 100;
-      if (panelProgress) panelProgress.style.width = `${progress}%`;
+      setProgressWidth(progress);
       if (panelTimeCurrent) {
         const mins = Math.floor(audio.currentTime / 60);
         const secs = Math.floor(audio.currentTime % 60);
@@ -408,7 +686,6 @@
     });
 
     audio.addEventListener('ended', () => {
-      // Avanzar a la siguiente pista automáticamente
       const next = (currentTrackIndex + 1) % tracks.length;
       selectTrack(next, true);
     });
@@ -422,6 +699,5 @@
     });
   }
 
-  // Inicializar primera pista
   loadTrack(0);
 </script>
