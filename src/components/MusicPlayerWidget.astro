@@ -97,68 +97,59 @@
   <div
     id="music-detail-panel"
     style="background-color: #1E2B1B;"
-    class="pointer-events-none absolute bottom-16 right-0 w-80 translate-y-3 opacity-0 rounded-3xl border-2 border-[#C5A059]/75 bg-[#1E2B1B] p-5 shadow-2xl backdrop-blur-md transition-all duration-300"
+    class="pointer-events-none absolute bottom-16 right-0 w-[calc(100vw-32px)] max-w-[310px] sm:max-w-[320px] translate-y-3 opacity-0 rounded-3xl border-2 border-[#C5A059]/75 bg-[#1E2B1B] p-4 shadow-2xl backdrop-blur-md transition-all duration-300"
   >
-    <!-- Cabecera del panel -->
-    <div class="flex items-center justify-between border-b border-[#C5A059]/25 pb-3">
-      <div class="flex items-center gap-2">
-        <svg class="h-4 w-4 text-[#DCD888]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-        </svg>
-        <span class="text-xs font-bold tracking-[0.2em] text-[#DCD888] uppercase">Música de Nuestra Boda</span>
-      </div>
-      <button
-        id="btn-close-music-panel"
-        type="button"
-        class="rounded-full p-1 text-[#E6DEA6]/75 hover:bg-[#FAF8F0]/10 hover:text-[#FAF8F0] transition"
-        aria-label="Cerrar panel de música"
-      >
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
+    <!-- Botón de cierre compacto arriba a la derecha -->
+    <button
+      id="btn-close-music-panel"
+      type="button"
+      class="absolute top-2.5 right-2.5 z-20 rounded-full p-1.5 text-[#E6DEA6]/70 hover:bg-[#FAF8F0]/10 hover:text-[#FAF8F0] transition active:scale-95"
+      aria-label="Cerrar panel de música"
+    >
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
 
-    <!-- Disco de vinilo superior ESTÁTICO con diseño ornamental -->
-    <div class="mt-4 text-center">
+    <!-- Disco de vinilo superior ESTÁTICO compacto -->
+    <div class="mt-1 text-center">
       <div
         id="panel-vinyl-disc"
-        class="relative mx-auto flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#111A10] via-[#1C2A19] to-[#2C3E28] ring-2 ring-[#C5A059]/80 shadow-lg"
+        class="relative mx-auto flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#111A10] via-[#1C2A19] to-[#2C3E28] ring-1.5 ring-[#C5A059]/80 shadow-md"
       >
         <!-- Surcos concéntricos dorados del vinilo -->
-        <div class="pointer-events-none absolute inset-1.5 rounded-full border border-[#DCD888]/20"></div>
-        <div class="pointer-events-none absolute inset-3 rounded-full border border-[#DCD888]/15"></div>
-        <div class="pointer-events-none absolute inset-5 rounded-full border border-[#C5A059]/25"></div>
+        <div class="pointer-events-none absolute inset-1 rounded-full border border-[#DCD888]/20"></div>
+        <div class="pointer-events-none absolute inset-2.5 rounded-full border border-[#DCD888]/15"></div>
         <!-- Brillo satinado estático -->
         <div class="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_25%,rgba(255,243,148,0.14),transparent_55%)]"></div>
         <!-- Etiqueta central crema y dorado -->
-        <div class="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#C5A059] bg-[#FAF8F0] shadow-xs">
-          <div class="h-2.5 w-2.5 rounded-full border border-[#C5A059] bg-[#1E2B1B]"></div>
+        <div class="relative flex h-5 w-5 items-center justify-center rounded-full border border-[#C5A059] bg-[#FAF8F0] shadow-xs">
+          <div class="h-1.5 w-1.5 rounded-full border border-[#C5A059] bg-[#1E2B1B]"></div>
         </div>
       </div>
 
-      <h4 id="panel-track-title" class="mt-3 font-serif text-lg font-bold text-[#FAF8F0]">
+      <h4 id="panel-track-title" class="mt-2 font-serif text-base font-bold text-[#FAF8F0]">
         Canon in D
       </h4>
-      <p id="panel-track-artist" class="text-xs text-[#E6DEA6]/80">
+      <p id="panel-track-artist" class="text-[11px] text-[#E6DEA6]/80 truncate px-2">
         Johann Pachelbel (Piano & Cuerdas)
       </p>
     </div>
 
-    <!-- Barra de Progreso Libre (sin tableta encerrándola): Luciérnaga viajando hacia la Luna -->
-    <div class="mt-5">
+    <!-- Barra de Progreso Libre: Luciérnaga viajando hacia la Luna -->
+    <div class="mt-3">
       <div
         id="panel-progress-bar-wrap"
-        class="group/bar relative flex items-center h-9 w-full cursor-pointer px-1 select-none"
+        class="group/bar relative flex items-center h-8 w-full cursor-pointer px-1 select-none"
         title="Toca para adelantar o atrasar la canción"
       >
         <!-- Estrellitas sutiles libres en el fondo -->
-        <span class="pointer-events-none absolute left-1/4 top-1.5 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
-        <span class="pointer-events-none absolute left-1/2 bottom-1.5 h-1 w-1 rounded-full bg-[#FFF59D]/35"></span>
-        <span class="pointer-events-none absolute left-2/3 top-2 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
+        <span class="pointer-events-none absolute left-1/4 top-1 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
+        <span class="pointer-events-none absolute left-1/2 bottom-1 h-1 w-1 rounded-full bg-[#FFF59D]/35"></span>
+        <span class="pointer-events-none absolute left-2/3 top-1.5 h-1 w-1 rounded-full bg-[#FFF59D]/45"></span>
 
         <!-- Riel del camino hacia la luna -->
-        <div class="relative h-2 w-full rounded-full bg-[#FAF8F0]/15 mr-8 overflow-visible">
+        <div class="relative h-1.5 w-full rounded-full bg-[#FAF8F0]/15 mr-7 overflow-visible">
           <!-- Camino iluminado por el destello dorado de la luciérnaga -->
           <div
             id="panel-track-progress"
@@ -173,34 +164,29 @@
             <!-- La Luciérnaga (Ray) volando hacia la Luna -->
             <span
               id="panel-firefly-knob"
-              class="firefly-node absolute -right-3.5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center transition-transform duration-200 group-hover/bar:scale-110"
+              class="firefly-node absolute -right-3 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center transition-transform duration-200 group-hover/bar:scale-110"
             >
-              <!-- Resplandor dorado ligero (radial gradient) -->
+              <!-- Resplandor dorado ligero -->
               <span class="firefly-aura absolute inset-0 rounded-full"></span>
 
-              <svg class="relative h-6 w-6 overflow-visible" viewBox="0 0 28 28" fill="none">
-                <!-- Destellitos que va soltando detrás -->
+              <svg class="relative h-5 w-5 overflow-visible" viewBox="0 0 28 28" fill="none">
                 <circle class="sparkle-trail-p1" cx="3" cy="15" r="1.2" fill="#FFF59D" />
                 <circle class="sparkle-trail-p2" cx="6" cy="11" r="0.9" fill="#DCD888" />
-                <!-- Alitas delicadas -->
                 <ellipse class="firefly-wing-l" cx="13.5" cy="9.5" rx="5.2" ry="2.6" transform="rotate(-26 13.5 9.5)" fill="#FAF8F0" fill-opacity="0.92" />
                 <ellipse class="firefly-wing-r" cx="16.5" cy="9.5" rx="5" ry="2.4" transform="rotate(24 16.5 9.5)" fill="#E6DEA6" fill-opacity="0.8" />
-                <!-- Cuerpo y antenitas -->
                 <ellipse cx="17.5" cy="14.5" rx="3.2" ry="2.1" fill="#141E12" stroke="#C5A059" stroke-width="0.8" />
                 <path d="M19.5 13.2c1.2-1.2 2.4-1.5 3.2-1.2M19.8 14.5c1.3-.3 2.4.2 3 1" stroke="#DCD888" stroke-width="0.9" stroke-linecap="round" />
-                <!-- Abdomen de luz dorada intensa -->
-                <circle cx="11.5" cy="15.2" r="4" fill="#FFF394" />
-                <circle cx="11.5" cy="15.2" r="2.2" fill="#FFFFFF" />
+                <circle cx="11.5" cy="15.2" r="3.6" fill="#FFF394" />
+                <circle cx="11.5" cy="15.2" r="2" fill="#FFFFFF" />
               </svg>
             </span>
           </div>
         </div>
 
         <!-- La Luna Creciente + Estrella Evangeline libre a la derecha -->
-        <span class="pointer-events-none absolute right-0.5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center">
+        <span class="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center">
           <span class="moon-aura absolute inset-0 rounded-full"></span>
-          <svg class="relative h-6 w-6 overflow-visible" viewBox="0 0 24 24" fill="none">
-            <!-- Luna creciente dorada -->
+          <svg class="relative h-5 w-5 overflow-visible" viewBox="0 0 24 24" fill="none">
             <path
               d="M20.5 13.2A8.5 8.5 0 1 1 11.8 3.5a6.6 6.6 0 0 0 8.7 9.7z"
               fill="#FFF394"
@@ -208,7 +194,6 @@
               stroke-width="1.3"
               stroke-linejoin="round"
             />
-            <!-- Estrella Evangeline junto a la luna -->
             <path
               class="evangeline-star"
               d="M19 4l.6 1.6L21.2 6l-1.6.6L19 8.2l-.6-1.6L16.8 6l1.6-.4L19 4z"
@@ -218,24 +203,24 @@
         </span>
       </div>
 
-      <div class="mt-1 flex justify-between text-[11px] text-[#E6DEA6]/75 font-mono px-1">
+      <div class="mt-0.5 flex justify-between text-[10px] text-[#E6DEA6]/75 font-mono px-1">
         <span id="panel-time-current">0:00</span>
         <span id="panel-time-duration">0:20</span>
       </div>
     </div>
 
-    <!-- Controles de reproducción estilo medallón editorial -->
-    <div class="mt-3.5 flex items-center justify-center gap-4">
+    <!-- Controles de reproducción estilo medallón editorial compactos -->
+    <div class="mt-2.5 flex items-center justify-center gap-3">
       <!-- Pista anterior -->
       <button
         id="btn-prev-track"
         type="button"
-        class="group/nav relative flex h-10 w-10 items-center justify-center rounded-full border border-[#C5A059]/65 bg-gradient-to-b from-[#2C3E28] to-[#1A2617] text-[#DCD888] shadow-sm transition-all duration-200 hover:border-[#FFF394] hover:text-[#FFF394] hover:shadow-[0_0_12px_rgba(255,243,148,0.22)] active:scale-90"
+        class="group/nav relative flex h-9 w-9 items-center justify-center rounded-full border border-[#C5A059]/65 bg-gradient-to-b from-[#2C3E28] to-[#1A2617] text-[#DCD888] shadow-sm transition-all duration-200 hover:border-[#FFF394] hover:text-[#FFF394] active:scale-90"
         aria-label="Pista anterior"
         title="Canción anterior"
       >
         <span class="pointer-events-none absolute inset-0.5 rounded-full border border-[#FAF8F0]/10"></span>
-        <svg class="h-4 w-4 transition-transform duration-200 group-hover/nav:-translate-x-0.5" viewBox="0 0 24 24" fill="currentColor">
+        <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover/nav:-translate-x-0.5" viewBox="0 0 24 24" fill="currentColor">
           <rect x="5" y="6" width="2.4" height="12" rx="1.2" />
           <path d="M18.2 6.45a1.2 1.2 0 0 1 1.8 1.04v9.02a1.2 1.2 0 0 1-1.8 1.04l-7.8-4.51a1.2 1.2 0 0 1 0-2.08l7.8-4.51z" />
         </svg>
@@ -245,14 +230,14 @@
       <button
         id="btn-play-pause-panel"
         type="button"
-        class="relative flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#DCD888] bg-gradient-to-b from-[#354B30] to-[#233120] text-[#FFF394] ring-4 ring-[#C5A059]/20 shadow-lg transition-all duration-200 hover:border-[#FFF394] hover:shadow-[0_0_16px_rgba(255,243,148,0.3)] active:scale-95"
+        class="relative flex h-11 w-11 items-center justify-center rounded-full border-2 border-[#DCD888] bg-gradient-to-b from-[#354B30] to-[#233120] text-[#FFF394] ring-3 ring-[#C5A059]/20 shadow-md transition-all duration-200 hover:border-[#FFF394] active:scale-95"
         aria-label="Reproducir o pausar"
       >
-        <span class="pointer-events-none absolute inset-1 rounded-full border border-[#DCD888]/30"></span>
-        <svg id="panel-icon-play" class="h-5 w-5 ml-0.5 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
+        <span class="pointer-events-none absolute inset-0.5 rounded-full border border-[#DCD888]/30"></span>
+        <svg id="panel-icon-play" class="h-4 w-4 ml-0.5 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
           <path d="M8 5.5v13l11-6.5z" />
         </svg>
-        <svg id="panel-icon-pause" class="hidden h-5 w-5 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
+        <svg id="panel-icon-pause" class="hidden h-4 w-4 text-[#FFF394]" fill="currentColor" viewBox="0 0 24 24">
           <rect x="6.5" y="5" width="3.8" height="14" rx="1.3" />
           <rect x="13.7" y="5" width="3.8" height="14" rx="1.3" />
         </svg>
@@ -262,22 +247,26 @@
       <button
         id="btn-next-track"
         type="button"
-        class="group/nav relative flex h-10 w-10 items-center justify-center rounded-full border border-[#C5A059]/65 bg-gradient-to-b from-[#2C3E28] to-[#1A2617] text-[#DCD888] shadow-sm transition-all duration-200 hover:border-[#FFF394] hover:text-[#FFF394] hover:shadow-[0_0_12px_rgba(255,243,148,0.22)] active:scale-90"
+        class="group/nav relative flex h-9 w-9 items-center justify-center rounded-full border border-[#C5A059]/65 bg-gradient-to-b from-[#2C3E28] to-[#1A2617] text-[#DCD888] shadow-sm transition-all duration-200 hover:border-[#FFF394] hover:text-[#FFF394] active:scale-90"
         aria-label="Siguiente pista"
         title="Siguiente canción"
       >
         <span class="pointer-events-none absolute inset-0.5 rounded-full border border-[#FAF8F0]/10"></span>
-        <svg class="h-4 w-4 transition-transform duration-200 group-hover/nav:translate-x-0.5" viewBox="0 0 24 24" fill="currentColor">
+        <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover/nav:translate-x-0.5" viewBox="0 0 24 24" fill="currentColor">
           <rect x="16.6" y="6" width="2.4" height="12" rx="1.2" />
           <path d="M5.8 6.45a1.2 1.2 0 0 0-1.8 1.04v9.02a1.2 1.2 0 0 0 1.8 1.04l7.8-4.51a1.2 1.2 0 0 0 0-2.08L5.8 6.45z" />
         </svg>
       </button>
     </div>
 
-    <!-- Lista de canciones disponibles -->
-    <div class="mt-4 border-t border-[#C5A059]/25 pt-3">
-      <span class="block text-[10px] font-bold tracking-[0.2em] text-[#DCD888] uppercase">Lista de canciones</span>
-      <div id="playlist-container" class="mt-2 space-y-1.5">
+    <!-- Lista de canciones disponibles compacta -->
+    <div class="mt-3 border-t border-[#C5A059]/25 pt-2">
+      <span class="block text-[9px] font-bold tracking-[0.2em] text-[#DCD888] uppercase">Lista de canciones</span>
+      <div id="playlist-container" class="mt-1.5 space-y-1">
+        <!-- Renderizado dinámicamente con JS -->
+      </div>
+    </div>
+  </div>
         <!-- Renderizado dinámicamente con JS -->
       </div>
     </div>
@@ -499,21 +488,21 @@
       const active = idx === currentTrackIndex;
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `w-full flex items-center justify-between rounded-xl px-3 py-2 text-left text-xs transition ${
+      btn.className = `w-full flex items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition ${
         active
           ? 'bg-[#2C3E28] border border-[#C5A059]/55 text-[#FAF8F0] font-semibold shadow-xs'
           : 'text-[#FAF8F0]/80 hover:bg-[#FAF8F0]/10'
       }`;
 
       btn.innerHTML = `
-        <div class="flex items-center gap-2.5 truncate">
-          <span class="inline-block h-2 w-2 rounded-full ${active ? 'bg-[#FFF394] animate-pulse' : 'bg-[#608B56]'}"></span>
+        <div class="flex items-center gap-2 truncate">
+          <span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full ${active ? 'bg-[#FFF394] animate-pulse' : 'bg-[#608B56]'}"></span>
           <div class="truncate">
-            <p class="truncate font-serif text-sm ${active ? 'text-[#FAF8F0]' : 'text-[#FAF8F0]/90'}">${track.title}</p>
-            <p class="truncate text-[10px] ${active ? 'text-[#DCD888]' : 'text-[#E6DEA6]/65'}">${track.artist}</p>
+            <p class="truncate font-serif text-xs sm:text-sm ${active ? 'text-[#FAF8F0]' : 'text-[#FAF8F0]/90'}">${track.title}</p>
+            <p class="truncate text-[9px] ${active ? 'text-[#DCD888]' : 'text-[#E6DEA6]/65'}">${track.artist}</p>
           </div>
         </div>
-        <span class="ml-2 font-mono text-[10px] ${active ? 'text-[#FFF394]' : 'text-[#DCD888]/75'}">${track.duration}</span>
+        <span class="ml-2 font-mono text-[9px] ${active ? 'text-[#FFF394]' : 'text-[#DCD888]/75'}">${track.duration}</span>
       `;
 
       btn.addEventListener('click', (e) => {

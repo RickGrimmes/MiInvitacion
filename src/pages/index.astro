@@ -491,7 +491,7 @@ const itineraryList = isRicardoKiara
       </section>
 
       <!-- Código de Vestimenta Interactivo (Invitadas & Invitados) -->
-      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-7 shadow-md">
+      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-5 sm:p-7 shadow-md">
         <div class="text-center">
           <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">
             Etiqueta
@@ -508,26 +508,26 @@ const itineraryList = isRicardoKiara
         </div>
 
         <!-- Botones Interactivos con Icono de Vestido (Invitadas) y Traje (Invitados) -->
-        <div class="mt-6 grid grid-cols-2 gap-3.5">
+        <div class="mt-6 grid grid-cols-2 gap-3 sm:gap-3.5">
           <!-- Botón Invitadas (Mujeres) -->
           <button
             id="btn-dress-women"
             type="button"
             aria-expanded="false"
-            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
+            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-3.5 sm:p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
           >
-            <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
+            <div class="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
               <!-- Icono Sobrio de Vestido Formal -->
-              <svg class="h-10 w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
+              <svg class="h-9 w-9 sm:h-10 sm:w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
                 <path d="M25 10c2 3 4 4 7 4s5-1 7-4l3 10-5 7c7 10 12 22 14 31H13c2-9 7-21 14-31l-5-7 3-10z" fill="#A3C184" fill-opacity="0.35" stroke="#2C3E28" stroke-width="2.2" stroke-linejoin="round"/>
                 <path d="M27 27h10" stroke="#2C3E28" stroke-width="2.2" stroke-linecap="round"/>
                 <path d="M26 27c-3 10-6 20-7 31M38 27c3 10 6 20 7 31M32 27v31" stroke="#608B56" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
             </div>
-            <span class="mt-3 font-serif text-lg sm:text-xl font-bold text-[#233120]">
+            <span class="mt-2.5 sm:mt-3 font-serif text-base sm:text-xl font-bold text-[#233120]">
               Invitadas
             </span>
-            <span class="mt-1 inline-flex items-center gap-1 text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
+            <span class="mt-1 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
               <span>Ver para Invitadas</span>
               <svg class="dress-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
@@ -540,11 +540,11 @@ const itineraryList = isRicardoKiara
             id="btn-dress-men"
             type="button"
             aria-expanded="false"
-            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
+            class="dress-tab-btn group flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-3.5 sm:p-4 text-center shadow-2xs transition-all duration-300 hover:bg-[#A3C184]/15 active:scale-95"
           >
-            <div class="flex h-16 w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
+            <div class="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border border-[#A3C184]/50 bg-white shadow-2xs transition-transform duration-300 group-hover:scale-105">
               <!-- Icono Sobrio de Traje / Vestimenta Formal -->
-              <svg class="h-10 w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
+              <svg class="h-9 w-9 sm:h-10 sm:w-10 text-[#2C3E28]" viewBox="0 0 64 64" fill="none">
                 <path d="M20 12l6-3h12l6 3 8 10-5 32H17L12 22l8-10z" fill="#2C3E28" stroke="#233120" stroke-width="2.2" stroke-linejoin="round"/>
                 <path d="M26 9l6 17 6-17" fill="#FAF8F0" stroke="#233120" stroke-width="2" stroke-linejoin="round"/>
                 <path d="M32 15l-2.5 5L32 26l2.5-6L32 15z" fill="#608B56"/>
@@ -552,10 +552,10 @@ const itineraryList = isRicardoKiara
                 <line x1="32" y1="26" x2="32" y2="54" stroke="#A3C184" stroke-width="1.6"/>
               </svg>
             </div>
-            <span class="mt-3 font-serif text-lg sm:text-xl font-bold text-[#233120]">
+            <span class="mt-2.5 sm:mt-3 font-serif text-base sm:text-xl font-bold text-[#233120]">
               Invitados
             </span>
-            <span class="mt-1 inline-flex items-center gap-1 text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
+            <span class="mt-1 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold tracking-[0.14em] text-[#608B56] uppercase">
               <span>Ver para Invitados</span>
               <svg class="dress-chevron h-3.5 w-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
@@ -568,127 +568,136 @@ const itineraryList = isRicardoKiara
         <div id="dress-code-collapse" class="cal-collapse-wrapper">
           <div class="cal-collapse-inner pt-2">
             <!-- Vista Invitadas (Mujeres) -->
-            <div id="dress-panel-women" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-5 shadow-2xs">
+            <div id="dress-panel-women" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-4 sm:p-5 shadow-2xs">
               <div class="flex items-center justify-between border-b border-[#A3C184]/40 pb-3">
                 <div>
                   <span class="text-xs font-bold tracking-[0.22em] text-[#608B56] uppercase">Guía para Invitadas</span>
-                  <h4 class="mt-0.5 font-serif text-2xl font-bold text-[#233120]">Vestido Formal</h4>
+                  <h4 class="mt-0.5 font-serif text-xl sm:text-2xl font-bold text-[#233120]">Vestido Formal</h4>
                 </div>
-                <span class="rounded-full bg-[#A3C184]/25 px-3 py-1 text-xs font-bold text-[#2C3E28] uppercase">
+                <span class="rounded-full bg-[#A3C184]/25 px-2.5 py-1 text-[11px] sm:text-xs font-bold text-[#2C3E28] uppercase">
                   Damas
                 </span>
               </div>
 
-              <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#384934]">
-                Vestido largo de noche o vestimenta formal elegante. Puedes elegir el color de tu preferencia, únicamente te pedimos <strong>no usar blanco (ni tonos similares como hueso, mármol, marfil o perla) ni verde olivo o similares</strong>.
+              <p class="mt-3 text-xs sm:text-base leading-relaxed text-[#384934]">
+                Vestido largo de noche o vestimenta formal elegante. Puedes elegir el color de tu preferencia, únicamente te pedimos <strong>no usar blanco (ni tonos similares como hueso, mármol, marfil o perla), rojo (ni tonos similares como tinto o vino) ni verde olivo o similares</strong>.
               </p>
 
-              <!-- Colores Reservados / Prohibidos -->
-              <div class="mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-4">
+              <!-- Colores Reservados / Prohibidos para Damas -->
+              <div class="mt-4 sm:mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-3.5 sm:p-4">
                 <span class="block text-center text-xs font-bold tracking-[0.2em] text-[#2C3E28] uppercase">
                   Colores Reservados (No Usar)
                 </span>
-                <div class="mt-3.5 flex items-center justify-center gap-4 sm:gap-5">
+                <div class="mt-3.5 grid grid-cols-5 gap-1 sm:gap-3 justify-items-center">
                   <!-- Blanco -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-red-700/75"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Blanco</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center">Blanco</span>
                   </div>
                   <!-- Hueso / Mármol / Marfil -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-red-700/75"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Hueso / Mármol</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Hueso / Mármol</span>
+                  </div>
+                  <!-- Rojo -->
+                  <div class="flex flex-col items-center">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#991B1B]/40 bg-[#DC2626] shadow-xs">
+                      <span class="absolute inset-0 flex items-center justify-center">
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-white/90"></span>
+                      </span>
+                    </div>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center">Rojo</span>
                   </div>
                   <!-- Verde Olivo Claro (#8E9B6D) -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-white/85"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Olivo Claro</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Olivo Claro</span>
                   </div>
                   <!-- Verde Olivo Oscuro (#66754C) -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-white/85"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Verde Olivo</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Verde Olivo</span>
                   </div>
                 </div>
                 <p class="mt-3.5 text-center text-xs sm:text-sm italic text-[#4A5D45]">
-                  Por favor evita blanco, hueso, mármol, marfil, perla, crema claro y cualquier gama de verde olivo o tonos similares.
+                  Por favor evita blanco, hueso, mármol, marfil, perla, crema claro, rojo, tinto, vino y cualquier gama de verde olivo o tonos similares.
                 </p>
               </div>
             </div>
 
             <!-- Vista Invitados (Hombres) -->
-            <div id="dress-panel-men" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-5 shadow-2xs">
+            <div id="dress-panel-men" class="hidden rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0]/70 p-4 sm:p-5 shadow-2xs">
               <div class="flex items-center justify-between border-b border-[#A3C184]/40 pb-3">
                 <div>
                   <span class="text-xs font-bold tracking-[0.22em] text-[#608B56] uppercase">Guía para Invitados</span>
-                  <h4 class="mt-0.5 font-serif text-2xl font-bold text-[#233120]">Vestimenta Formal</h4>
+                  <h4 class="mt-0.5 font-serif text-xl sm:text-2xl font-bold text-[#233120]">Vestimenta Formal</h4>
                 </div>
-                <span class="rounded-full bg-[#A3C184]/25 px-3 py-1 text-xs font-bold text-[#2C3E28] uppercase">
+                <span class="rounded-full bg-[#A3C184]/25 px-2.5 py-1 text-[11px] sm:text-xs font-bold text-[#2C3E28] uppercase">
                   Caballeros
                 </span>
               </div>
 
-              <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#384934]">
+              <p class="mt-3 text-xs sm:text-base leading-relaxed text-[#384934]">
                 Vestimenta formal (de preferencia traje o esmoquin, pero con que sea vestimenta formal basta). Por favor <strong>no usar blanco (ni tonos similares como hueso, mármol o marfil) ni verde olivo o similares</strong>.
               </p>
 
-              <!-- Colores Reservados / Prohibidos -->
-              <div class="mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-4">
+              <!-- Colores Reservados / Prohibidos para Caballeros -->
+              <div class="mt-4 sm:mt-5 rounded-xl border border-[#A3C184]/50 bg-white p-3.5 sm:p-4">
                 <span class="block text-center text-xs font-bold tracking-[0.2em] text-[#2C3E28] uppercase">
                   Colores Reservados (No Usar)
                 </span>
-                <div class="mt-3.5 flex items-center justify-center gap-4 sm:gap-5">
+                <div class="mt-3.5 grid grid-cols-4 gap-2 sm:gap-4 justify-items-center">
                   <!-- Blanco -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-300 bg-white shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-red-700/75"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Blanco</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center">Blanco</span>
                   </div>
                   <!-- Hueso / Mármol / Marfil -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-gray-300 bg-[#F3EFE6] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-red-700/75"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-red-700/75"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Hueso / Mármol</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Hueso / Mármol</span>
                   </div>
                   <!-- Verde Olivo Claro (#8E9B6D) -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#66754C]/60 bg-[#8E9B6D] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-white/85"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Olivo Claro</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Olivo Claro</span>
                   </div>
                   <!-- Verde Olivo Oscuro (#66754C) -->
                   <div class="flex flex-col items-center">
-                    <div class="relative h-12 w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
+                    <div class="relative h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-[#233120]/40 bg-[#66754C] shadow-xs">
                       <span class="absolute inset-0 flex items-center justify-center">
-                        <span class="h-0.5 w-11 rotate-45 bg-white/85"></span>
+                        <span class="h-0.5 w-9 sm:w-11 rotate-45 bg-white/85"></span>
                       </span>
                     </div>
-                    <span class="mt-1.5 text-xs font-semibold text-[#233120]">Verde Olivo</span>
+                    <span class="mt-1 text-[10px] sm:text-xs font-semibold text-[#233120] text-center leading-tight">Verde Olivo</span>
                   </div>
                 </div>
                 <p class="mt-3.5 text-center text-xs sm:text-sm italic text-[#4A5D45]">
@@ -716,12 +725,12 @@ const itineraryList = isRicardoKiara
       </section>
 
       <!-- Mesa de Regalos Interactiva -->
-      <section class="inv-reveal mt-12 rounded-3xl border-2 border-[#C5A059]/40 bg-white p-7 shadow-md">
+      <section class="inv-reveal mt-12 rounded-3xl border-2 border-[#C5A059]/40 bg-white p-5 sm:p-7 shadow-md">
         <div class="text-center">
           <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">Mesa de Regalos</span>
           <h3 class="mt-1.5 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Muestras de Cariño</h3>
           <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
-          <p class="mt-4 text-base sm:text-lg text-[#384934] leading-relaxed">
+          <p class="mt-4 text-sm sm:text-lg text-[#384934] leading-relaxed">
             Tu presencia es nuestro mayor regalo. Si deseas tener un detalle con nosotros, ponemos a tu disposición nuestras opciones:
           </p>
         </div>
@@ -731,7 +740,7 @@ const itineraryList = isRicardoKiara
           <span class="block text-center text-xs sm:text-sm font-bold tracking-[0.28em] text-[#8C651D] uppercase mb-3">
             Ver en:
           </span>
-          <div class="grid grid-cols-2 gap-3.5">
+          <div class="grid grid-cols-2 gap-3 sm:gap-3.5">
             <!-- SEARS (Logo Oficial) -->
             <a
               href="https://www.sears.com.mx/Mesa-de-Regalos/287737/te-invito-a-mi-boda-martin-ricardo-kiara"
@@ -739,7 +748,7 @@ const itineraryList = isRicardoKiara
               rel="noopener noreferrer"
               aria-label="Ver mesa de regalos en SEARS"
               title="SEARS"
-              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-5 px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95"
+              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-2 sm:py-5 sm:px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95 text-center"
               style="transition-delay: 80ms;"
             >
               <img
@@ -747,9 +756,9 @@ const itineraryList = isRicardoKiara
                 alt="SEARS"
                 loading="lazy"
                 decoding="async"
-                class="h-9 sm:h-10 w-auto object-contain"
+                class="h-8 sm:h-10 w-auto object-contain"
               />
-              <span class="mt-2.5 text-xs sm:text-sm font-medium text-[#4A5D45]">
+              <span class="mt-2 text-[11px] sm:text-sm font-medium text-[#4A5D45]">
                 Evento: <strong class="font-mono text-[#233120]">287737</strong>
               </span>
             </a>
@@ -761,7 +770,7 @@ const itineraryList = isRicardoKiara
               rel="noopener noreferrer"
               aria-label="Ver mesa de regalos en CIMACO"
               title="CIMACO"
-              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-5 px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95"
+              class="inv-stagger-item flex flex-col items-center justify-center rounded-2xl border-2 border-[#C5A059]/60 bg-[#FAF8F0] py-4 px-2 sm:py-5 sm:px-4 shadow-2xs transition duration-300 hover:bg-[#E6DEA6]/45 active:scale-95 text-center"
               style="transition-delay: 160ms;"
             >
               <img
@@ -769,9 +778,9 @@ const itineraryList = isRicardoKiara
                 alt="CIMACO"
                 loading="lazy"
                 decoding="async"
-                class="h-9 sm:h-10 w-auto object-contain"
+                class="h-8 sm:h-10 w-auto object-contain"
               />
-              <span class="mt-2.5 text-xs sm:text-sm font-medium text-[#4A5D45]">
+              <span class="mt-2 text-[11px] sm:text-sm font-medium text-[#4A5D45]">
                 Evento: <strong class="font-mono text-[#233120]">47298</strong>
               </span>
             </a>
@@ -782,36 +791,36 @@ const itineraryList = isRicardoKiara
             <div class="flex items-center justify-between mb-4 px-1">
               <div>
                 <span class="block text-xs font-bold tracking-[0.22em] text-[#8C651D] uppercase">Datos Bancarios</span>
-                <h4 class="font-serif text-xl sm:text-2xl font-bold text-[#233120]">Transferencia Directa</h4>
+                <h4 class="font-serif text-lg sm:text-2xl font-bold text-[#233120]">Transferencia Directa</h4>
               </div>
               <img
                 src="/images/logo-bbva.svg"
                 alt="BBVA"
                 loading="lazy"
                 decoding="async"
-                class="h-6 sm:h-7 w-auto object-contain"
+                class="h-5 sm:h-7 w-auto object-contain"
               />
             </div>
 
-            <div class="space-y-3.5">
+            <div class="space-y-3 sm:space-y-3.5">
               <!-- Cuenta 1: Martín Ricardo Cabello Rodríguez -->
-              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-4 shadow-2xs transition hover:border-[#C5A059]">
+              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-3.5 sm:p-4 shadow-2xs transition hover:border-[#C5A059]">
                 <div class="flex items-center justify-between gap-2">
-                  <span class="text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiario</span>
-                  <span class="text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
+                  <span class="text-[11px] sm:text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiario</span>
+                  <span class="text-[11px] sm:text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
                 </div>
                 <p class="mt-1 font-serif text-base sm:text-lg font-bold text-[#233120]">
                   Martín Ricardo Cabello Rodríguez
                 </p>
-                <div class="mt-3 flex items-center justify-between gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-3.5 py-2.5">
-                  <span class="font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide whitespace-nowrap">
+                <div class="mt-2.5 flex items-center justify-between gap-1.5 sm:gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-2.5 py-2 sm:px-3.5 sm:py-2.5 min-w-0">
+                  <span class="font-mono text-[11px] sm:text-sm font-semibold text-[#233120] tracking-tight sm:tracking-normal truncate select-all">
                     012 180 01548291029 4
                   </span>
                   <button
                     type="button"
                     data-copy-clabe="012180015482910294"
                     data-copy-owner="Ricardo"
-                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-3 py-1.5 text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
+                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-2.5 py-1.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
                   >
                     <svg class="h-3.5 w-3.5 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -822,23 +831,23 @@ const itineraryList = isRicardoKiara
               </div>
 
               <!-- Cuenta 2: Kiara Delgadillo Torres -->
-              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-4 shadow-2xs transition hover:border-[#C5A059]">
+              <div class="rounded-2xl border border-[#C5A059]/55 bg-[#FAF8F0] p-3.5 sm:p-4 shadow-2xs transition hover:border-[#C5A059]">
                 <div class="flex items-center justify-between gap-2">
-                  <span class="text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiaria</span>
-                  <span class="text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
+                  <span class="text-[11px] sm:text-xs font-bold tracking-[0.18em] text-[#608B56] uppercase">Beneficiaria</span>
+                  <span class="text-[11px] sm:text-xs font-semibold text-[#8C651D]">CLABE Interbancaria</span>
                 </div>
                 <p class="mt-1 font-serif text-base sm:text-lg font-bold text-[#233120]">
                   Kiara Delgadillo Torres
                 </p>
-                <div class="mt-3 flex items-center justify-between gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-3.5 py-2.5">
-                  <span class="font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide whitespace-nowrap">
+                <div class="mt-2.5 flex items-center justify-between gap-1.5 sm:gap-2 rounded-xl border border-[#A3C184]/50 bg-white px-2.5 py-2 sm:px-3.5 sm:py-2.5 min-w-0">
+                  <span class="font-mono text-[11px] sm:text-sm font-semibold text-[#233120] tracking-tight sm:tracking-normal truncate select-all">
                     012 180 01984736251 8
                   </span>
                   <button
                     type="button"
                     data-copy-clabe="012180019847362518"
                     data-copy-owner="Kiara"
-                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-3 py-1.5 text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
+                    class="btn-copy-clabe-item shrink-0 inline-flex items-center gap-1 rounded-lg border border-[#C5A059]/50 bg-[#FAF8F0] px-2.5 py-1.5 sm:px-3 text-[11px] sm:text-xs font-bold text-[#233120] uppercase tracking-wider transition hover:bg-[#E6DEA6]/70 active:scale-95"
                   >
                     <svg class="h-3.5 w-3.5 text-[#608B56]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -853,12 +862,12 @@ const itineraryList = isRicardoKiara
       </section>
 
       <!-- Confirmación de Asistencia (Con Ricardo o con Kiara) -->
-      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-7 sm:p-8 shadow-md text-center">
+      <section class="inv-reveal mt-12 rounded-3xl border border-[#A3C184]/60 bg-white p-5 sm:p-8 shadow-md text-center">
         <span class="text-sm font-bold tracking-[0.28em] text-[#608B56] uppercase">Confirmación</span>
         <h3 class="mt-1.5 font-serif text-3xl sm:text-4xl font-normal text-[#233120]">Acompáñanos en Nuestro Día</h3>
         <div class="inv-line-grow mx-auto mt-3 h-0.5 w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
         
-        <p class="mt-4 text-base sm:text-lg leading-relaxed text-[#384934] max-w-md mx-auto">
+        <p class="mt-4 text-sm sm:text-lg leading-relaxed text-[#384934] max-w-md mx-auto">
           Tu presencia es muy importante para nosotros. Tanto si nos acompañas como si no te es posible asistir, te agradecemos de corazón avisarnos antes del <strong>1 de Marzo de 2027</strong>.
         </p>
 
@@ -867,7 +876,7 @@ const itineraryList = isRicardoKiara
             Confirmar asistencia con:
           </span>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-3.5 sm:gap-4">
             <!-- Contacto con Ricardo -->
             <a
               href={waUrlRicardo}
@@ -875,34 +884,20 @@ const itineraryList = isRicardoKiara
               rel="noopener noreferrer"
               aria-label="Confirmar con Ricardo por WhatsApp"
               title="Contactar a Ricardo"
-              class="group relative flex flex-col items-center justify-between rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
+              class="group relative flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 sm:p-6 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
             >
-              <div class="text-center">
-                <span class="block text-[11px] font-bold tracking-[0.2em] text-[#608B56] uppercase">
-                  Contacto con
-                </span>
-                <span class="mt-1 block font-serif text-2xl font-bold text-[#233120]">
-                  Ricardo
-                </span>
-              </div>
+              <span class="block font-serif text-2xl sm:text-3xl font-bold text-[#233120] group-hover:text-[#608B56] transition-colors">
+                Ricardo
+              </span>
 
-              <div class="my-4 flex items-center justify-center">
+              <div class="mt-4 flex items-center justify-center">
                 <img
                   src="/images/logo-whatsapp.svg"
                   alt="WhatsApp"
                   loading="lazy"
                   decoding="async"
-                  class="h-14 w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
+                  class="h-12 w-12 sm:h-14 sm:w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
                 />
-              </div>
-
-              <div class="w-full rounded-xl border border-[#A3C184]/45 bg-white py-2 px-2.5 text-center shadow-2xs">
-                <span class="block font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide">
-                  871 123 4567
-                </span>
-                <span class="mt-0.5 block text-[10px] font-bold tracking-[0.16em] text-[#608B56] uppercase">
-                  Enviar mensaje
-                </span>
               </div>
             </a>
 
@@ -913,37 +908,25 @@ const itineraryList = isRicardoKiara
               rel="noopener noreferrer"
               aria-label="Confirmar con Kiara por WhatsApp"
               title="Contactar a Kiara"
-              class="group relative flex flex-col items-center justify-between rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
+              class="group relative flex flex-col items-center justify-center rounded-2xl border border-[#A3C184]/60 bg-[#FAF8F0] p-5 sm:p-6 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:border-[#608B56] hover:bg-[#E6DEA6]/25 hover:shadow-md active:scale-95"
             >
-              <div class="text-center">
-                <span class="block text-[11px] font-bold tracking-[0.2em] text-[#608B56] uppercase">
-                  Contacto con
-                </span>
-                <span class="mt-1 block font-serif text-2xl font-bold text-[#233120]">
-                  Kiara
-                </span>
-              </div>
+              <span class="block font-serif text-2xl sm:text-3xl font-bold text-[#233120] group-hover:text-[#608B56] transition-colors">
+                Kiara
+              </span>
 
-              <div class="my-4 flex items-center justify-center">
+              <div class="mt-4 flex items-center justify-center">
                 <img
                   src="/images/logo-whatsapp.svg"
                   alt="WhatsApp"
                   loading="lazy"
                   decoding="async"
-                  class="h-14 w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
+                  class="h-12 w-12 sm:h-14 sm:w-14 object-contain drop-shadow-xs transition-transform duration-300 group-hover:scale-110"
                 />
-              </div>
-
-              <div class="w-full rounded-xl border border-[#A3C184]/45 bg-white py-2 px-2.5 text-center shadow-2xs">
-                <span class="block font-mono text-xs sm:text-sm font-semibold text-[#233120] tracking-wide">
-                  871 987 6543
-                </span>
-                <span class="mt-0.5 block text-[10px] font-bold tracking-[0.16em] text-[#608B56] uppercase">
-                  Enviar mensaje
-                </span>
               </div>
             </a>
           </div>
+        </div>
+      </section>
         </div>
       </section>
       </div>
