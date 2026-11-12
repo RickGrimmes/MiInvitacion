@@ -4,24 +4,13 @@ import MusicPlayerWidget from '../components/MusicPlayerWidget.astro';
 import CoupleGallery from '../components/CoupleGallery.astro';
 
 
-const isRicardoKiara = true;
-const event = { dress_code: 'Rigurosa Etiqueta / Formal' };
-
-const coupleNames = isRicardoKiara
-  ? {
-      groom: 'MARTÍN RICARDO CABELLO RODRÍGUEZ',
-      bride: 'KIARA DELGADILLO TORRES',
-      shortTitle: 'Ricardo & Kiara',
-      formalDate: 'Viernes, 2 de Abril de 2027',
-      targetIsoDate: '2027-04-02T17:30:00',
-    }
-  : {
-      groom: 'CARLOS MORALES',
-      bride: 'SOFÍA GARZA',
-      shortTitle: event.title,
-      formalDate: 'Domingo, 25 de Octubre de 2026',
-      targetIsoDate: event.event_date || '2026-10-25T18:00:00',
-    };
+const coupleNames = {
+  groom: 'MARTÍN RICARDO CABELLO RODRÍGUEZ',
+  bride: 'KIARA DELGADILLO TORRES',
+  shortTitle: 'Ricardo & Kiara',
+  formalDate: 'Viernes, 2 de Abril de 2027',
+  targetIsoDate: '2027-04-02T17:30:00',
+};
 
 // Mensajes y contactos directos para confirmar con Ricardo o con Kiara
 const waTextRicardo = encodeURIComponent(
@@ -60,19 +49,12 @@ const heroSlides = [
 ];
 
 // Itinerario
-const itineraryList = isRicardoKiara
-  ? [
-      { time: '5:30 PM', title: 'Ceremonia Religiosa', desc: 'Solemne misa en Parroquia de San Pedro Apóstol' },
-      { time: '9:00 PM', title: 'Recepción y Fiesta', desc: 'Bienvenida y celebración en Centro de Convenciones San Ángel' },
-      { time: '10:00 PM', title: 'Banquete y Cena', desc: 'Cena formal en honor a los novios' },
-      { time: '2:00 AM', title: 'Fin de la Celebración', desc: 'Despedida y cierre de una noche inolvidable' },
-    ]
-  : [
-      { time: '18:00 hrs', title: 'Ceremonia Religiosa', desc: 'Capilla Principal' },
-      { time: '19:30 hrs', title: 'Cóctel de Bienvenida', desc: 'Jardín Central' },
-      { time: '21:00 hrs', title: 'Recepción y Cena', desc: 'Salón Principal' },
-      { time: '23:00 hrs', title: 'Fiesta', desc: 'Celebración' },
-    ];
+const itineraryList = [
+  { time: '5:30 PM', title: 'Ceremonia Religiosa', desc: 'Solemne misa en Parroquia de San Pedro Apóstol' },
+  { time: '9:00 PM', title: 'Recepción y Fiesta', desc: 'Bienvenida y celebración en Centro de Convenciones San Ángel' },
+  { time: '10:00 PM', title: 'Banquete y Cena', desc: 'Cena formal en honor a los novios' },
+  { time: '2:00 AM', title: 'Fin de la Celebración', desc: 'Despedida y cierre de una noche inolvidable' },
+];
 ---
 
 <Layout title={`${coupleNames.shortTitle} — Invitación de Boda`} theme="editorial">
@@ -1206,7 +1188,7 @@ const itineraryList = isRicardoKiara
     let isHeroVisible = true;
 
     function stepHeroSlide() {
-      if (document.hidden || !isHeroVisible) return;
+      if (document.hidden || !isHeroVisible || introStep !== 2) return;
       const prevEl = heroSlidesEls[currentHeroIndex];
       currentHeroIndex = (currentHeroIndex + 1) % heroSlidesEls.length;
       const nextEl = heroSlidesEls[currentHeroIndex];
@@ -1413,6 +1395,7 @@ const itineraryList = isRicardoKiara
   const pad = (n) => String(n).padStart(2, '0');
 
   function updateCountdown() {
+    if (document.hidden) return;
     const diff = targetTime - Date.now();
 
     if (diff <= 0) {

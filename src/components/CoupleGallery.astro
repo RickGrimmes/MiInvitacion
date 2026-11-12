@@ -102,7 +102,7 @@ const sliderPhotos = defaultPhotos.slice(0, 4);
       id="gallery-prev-btn"
       type="button"
       aria-label="Foto anterior"
-      class="absolute left-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/70 text-[#E6DEA6] backdrop-blur-xs transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
+      class="absolute left-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/85 text-[#E6DEA6] transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
     >
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7" />
@@ -114,7 +114,7 @@ const sliderPhotos = defaultPhotos.slice(0, 4);
       id="gallery-next-btn"
       type="button"
       aria-label="Foto siguiente"
-      class="absolute right-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/70 text-[#E6DEA6] backdrop-blur-xs transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
+      class="absolute right-3 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-[#E6DEA6]/60 bg-[#2C3E28]/85 text-[#E6DEA6] transition hover:bg-[#2C3E28] active:scale-95 shadow-md"
     >
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7" />
@@ -345,22 +345,16 @@ const sliderPhotos = defaultPhotos.slice(0, 4);
         if (scrollTicking) return;
         scrollTicking = true;
         requestAnimationFrame(() => {
-          const scrollCenter = track.scrollLeft + track.clientWidth / 2;
-          let closestIndex = 0;
-          let minDistance = Infinity;
-
-          slides.forEach((slide, idx) => {
-            const slideCenter = slide.offsetLeft + slide.clientWidth / 2;
-            const dist = Math.abs(scrollCenter - slideCenter);
-            if (dist < minDistance) {
-              minDistance = dist;
-              closestIndex = idx;
+          const stepWidth = track.scrollWidth / totalSlides;
+          if (stepWidth > 0) {
+            const closestIndex = Math.max(
+              0,
+              Math.min(totalSlides - 1, Math.round(track.scrollLeft / stepWidth))
+            );
+            if (closestIndex !== currentIdx) {
+              currentIdx = closestIndex;
+              updateDots(currentIdx);
             }
-          });
-
-          if (closestIndex !== currentIdx) {
-            currentIdx = closestIndex;
-            updateDots(currentIdx);
           }
           scrollTicking = false;
         });

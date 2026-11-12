@@ -8,7 +8,7 @@
   <!-- Pastilla flotante con mini barra de Luciérnaga hacia la Luna -->
   <div
     id="music-pill"
-    class="group flex items-center gap-3 rounded-full border-2 border-[#C5A059]/75 bg-[#1E2B1B]/95 px-3.5 py-2 shadow-xl backdrop-blur-md transition-all duration-300 hover:shadow-2xl select-none"
+    class="group flex items-center gap-3 rounded-full border-2 border-[#C5A059]/75 bg-[#1E2B1B] px-3.5 py-2 shadow-xl transition-shadow duration-300 hover:shadow-2xl select-none"
   >
     <!-- Medallón de vinilo -->
     <button
@@ -97,7 +97,7 @@
   <div
     id="music-detail-panel"
     style="background-color: #1E2B1B;"
-    class="pointer-events-none absolute bottom-16 right-0 w-[calc(100vw-32px)] max-w-[310px] sm:max-w-[320px] translate-y-3 opacity-0 rounded-3xl border-2 border-[#C5A059]/75 bg-[#1E2B1B] p-4 shadow-2xl backdrop-blur-md transition-all duration-300"
+    class="pointer-events-none absolute bottom-16 right-0 w-[calc(100vw-32px)] max-w-[310px] sm:max-w-[320px] translate-y-3 opacity-0 rounded-3xl border-2 border-[#C5A059]/75 bg-[#1E2B1B] p-4 shadow-2xl transition-all duration-300"
   >
     <!-- Botón de cierre compacto arriba a la derecha -->
     <button
@@ -295,7 +295,9 @@
     );
   }
 
-  .is-playing-firefly .firefly-aura {
+  /* Animar únicamente la pastilla visible cuando el panel está cerrado; animar el panel solo cuando está abierto */
+  .is-playing-firefly #music-pill .firefly-aura,
+  .is-playing-firefly #music-detail-panel.is-panel-open .firefly-aura {
     animation: fireflyPulse 1.8s ease-in-out infinite;
   }
 
@@ -343,41 +345,47 @@
     height: 3px;
   }
 
-  .is-playing-firefly .sparkle-1 {
+  .is-playing-firefly #music-pill .sparkle-1,
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-1 {
     animation: sparkleTwinkle 1.4s ease-in-out infinite;
   }
-  .is-playing-firefly .sparkle-2 {
+  .is-playing-firefly #music-pill .sparkle-2,
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-2 {
     animation: sparkleTwinkle 1.7s ease-in-out 0.3s infinite;
   }
-  .is-playing-firefly .sparkle-3 {
+  .is-playing-firefly #music-pill .sparkle-3,
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-3 {
     animation: sparkleTwinkle 1.5s ease-in-out 0.6s infinite;
   }
-  .is-playing-firefly .sparkle-4 {
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-4 {
     animation: sparkleTwinkle 1.9s ease-in-out 0.2s infinite;
   }
 
   /* Flote sutil de la luciérnaga y aleteo ligero cuando suena la música */
-  .is-playing-firefly .firefly-node {
+  .is-playing-firefly #music-pill .firefly-node,
+  .is-playing-firefly #music-detail-panel.is-panel-open .firefly-node {
     animation: fireflyHover 2.2s ease-in-out infinite;
   }
 
-  .is-playing-firefly .firefly-wing-l {
+  .is-playing-firefly #music-pill .firefly-wing-l,
+  .is-playing-firefly #music-detail-panel.is-panel-open .firefly-wing-l {
     transform-origin: 13px 11px;
     animation: wingFlutter 0.35s ease-in-out infinite alternate;
   }
 
-  .is-playing-firefly .firefly-wing-r {
+  .is-playing-firefly #music-pill .firefly-wing-r,
+  .is-playing-firefly #music-detail-panel.is-panel-open .firefly-wing-r {
     transform-origin: 15px 11px;
     animation: wingFlutter 0.35s ease-in-out 0.15s infinite alternate;
   }
 
-  .is-playing-firefly .sparkle-trail-p1 {
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-trail-p1 {
     animation: sparkleTwinkle 1.1s ease-in-out infinite;
   }
-  .is-playing-firefly .sparkle-trail-p2 {
+  .is-playing-firefly #music-detail-panel.is-panel-open .sparkle-trail-p2 {
     animation: sparkleTwinkle 1.4s ease-in-out 0.4s infinite;
   }
-  .is-playing-firefly .evangeline-star {
+  .is-playing-firefly #music-detail-panel.is-panel-open .evangeline-star {
     animation: sparkleTwinkle 2.2s ease-in-out infinite;
   }
 
@@ -520,11 +528,13 @@
   let animFrameId = null;
   let lastTimeStr = '';
 
-  function setProgressWidth(percent) {
+  function setProgressWidth(percent, forcePanel = false) {
     const clamped = Math.max(0, Math.min(100, percent));
     const widthStr = `${clamped}%`;
-    if (panelProgress) panelProgress.style.width = widthStr;
     if (miniProgress) miniProgress.style.width = widthStr;
+    if ((isPanelOpen || forcePanel) && panelProgress) {
+      panelProgress.style.width = widthStr;
+    }
   }
 
   function getEffectiveDuration() {
@@ -536,7 +546,7 @@
     return audio.duration;
   }
 
-  function updateSmoothProgress() {
+  function updateSmoothProgress(forcePanel = false) {
     const effDuration = getEffectiveDuration();
     if (!audio || !effDuration) return;
 
@@ -562,9 +572,9 @@
     }
 
     const progress = (audio.currentTime / effDuration) * 100;
-    setProgressWidth(progress);
+    setProgressWidth(progress, forcePanel === true);
 
-    if (panelTimeCurrent) {
+    if ((isPanelOpen || forcePanel === true) && panelTimeCurrent) {
       const clampedTime = Math.min(audio.currentTime, effDuration);
       const mins = Math.floor(clampedTime / 60);
       const secs = Math.floor(clampedTime % 60);
@@ -575,7 +585,7 @@
       }
     }
 
-    if (isPlaying) {
+    if (isPlaying && !document.hidden) {
       animFrameId = requestAnimationFrame(updateSmoothProgress);
     }
   }
@@ -608,7 +618,7 @@
     if (panelTitle) panelTitle.textContent = track.title;
     if (panelArtist) panelArtist.textContent = track.artist;
     if (panelTimeDuration) panelTimeDuration.textContent = track.duration;
-    setProgressWidth(0);
+    setProgressWidth(0, true);
     lastTimeStr = '0:00';
     if (panelTimeCurrent) panelTimeCurrent.textContent = '0:00';
     renderPlaylist();
@@ -672,14 +682,15 @@
 
   function openPanel() {
     isPanelOpen = true;
+    updateSmoothProgress(true);
     detailPanel?.classList.remove('pointer-events-none', 'opacity-0', 'translate-y-3');
-    detailPanel?.classList.add('pointer-events-auto', 'opacity-100', 'translate-y-0');
+    detailPanel?.classList.add('is-panel-open', 'pointer-events-auto', 'opacity-100', 'translate-y-0');
   }
 
   function closePanel() {
     isPanelOpen = false;
     detailPanel?.classList.add('pointer-events-none', 'opacity-0', 'translate-y-3');
-    detailPanel?.classList.remove('pointer-events-auto', 'opacity-100', 'translate-y-0');
+    detailPanel?.classList.remove('is-panel-open', 'pointer-events-auto', 'opacity-100', 'translate-y-0');
   }
 
   function togglePanel() {
@@ -788,6 +799,27 @@
   }
 
   loadTrack(0);
+
+  // Preparar la primera pista en segundo plano una vez cargada la vista inicial para que inicie al instante al abrir la carta
+  window.addEventListener(
+    'load',
+    () => {
+      if (audio && (!audio.src || audio.src === '')) {
+        audio.preload = 'auto';
+        audio.src = tracks[0].src;
+      }
+    },
+    { once: true }
+  );
+
+  // Reanudar el ciclo fluido de la luciérnaga cuando la ventana vuelve a estar visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopSmoothLoop();
+    } else if (isPlaying) {
+      startSmoothLoop();
+    }
+  });
 
   // Iniciar música automáticamente cuando el invitado abre la carta de bienvenida
   window.addEventListener('wedding:start-music', () => {
