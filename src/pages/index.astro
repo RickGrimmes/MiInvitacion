@@ -77,6 +77,150 @@ const itineraryList = isRicardoKiara
 
 <Layout title={`${coupleNames.shortTitle} — Invitación de Boda`} theme="editorial">
 
+  <!-- Pantalla Inicial Interactiva: Fondo Blanco / Marfil con Carta de Invitación -->
+  <div
+    id="invitation-intro-overlay"
+    class="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-[#FFFFFF] px-4 select-none overflow-hidden transition-opacity duration-700 ease-out"
+    style="background: radial-gradient(circle at center, #FFFFFF 0%, #FAF8F0 65%, #F2EDE0 100%);"
+    aria-label="Carta de bienvenida a nuestra boda"
+  >
+    <!-- Marco editorial dorado sutil alrededor de la pantalla blanca -->
+    <div class="pointer-events-none absolute inset-3 sm:inset-6 rounded-3xl border border-[#C5A059]/35"></div>
+    <div class="pointer-events-none absolute inset-4 sm:inset-7 rounded-2xl border border-[#A3C184]/25"></div>
+
+    <!-- Encabezado superior discreto -->
+    <div id="intro-top-header" class="mb-7 sm:mb-9 text-center transition-all duration-500">
+      <p class="font-serif text-xl sm:text-2xl italic text-[#233120]">
+        Ricardo <span class="text-[#C5A059]">&</span> Kiara
+      </p>
+      <div class="mx-auto mt-2 h-px w-16 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+    </div>
+
+    <!-- Escenario de la Cartita Interactiva (60fps GPU) -->
+    <div
+      id="intro-envelope-stage"
+      class="relative flex flex-col items-center justify-center"
+    >
+      <div
+        id="intro-envelope-btn"
+        role="button"
+        tabindex="0"
+        aria-label="Abrir carta de invitación"
+        class="intro-envelope-float group relative w-[300px] h-[205px] sm:w-[350px] sm:h-[235px] cursor-pointer outline-none"
+      >
+        <!-- Tarjeta Interior que emerge al abrir el sobre ("Estás invitado a...") -->
+        <div
+          id="intro-letter-card"
+          class="absolute inset-x-3 sm:inset-x-4 -top-4 z-30 rounded-2xl border-2 border-[#C5A059]/80 bg-[#FFFFFF] px-5 py-6 sm:px-6 sm:py-7 text-center shadow-xl"
+        >
+          <div class="pointer-events-none absolute inset-1.5 rounded-xl border border-[#E6DEA6]"></div>
+
+          <!-- Ornamento superior -->
+          <div class="relative flex items-center justify-center gap-2 text-[#C5A059]">
+            <span class="h-px w-7 bg-gradient-to-r from-transparent to-[#C5A059]"></span>
+            <span class="h-1.5 w-1.5 rotate-45 bg-[#C5A059]"></span>
+            <span class="h-px w-7 bg-gradient-to-l from-transparent to-[#C5A059]"></span>
+          </div>
+
+          <span class="relative mt-2.5 block text-[10px] sm:text-xs font-bold tracking-[0.3em] text-[#608B56] uppercase">
+            Estás invitado a
+          </span>
+          <span class="relative mt-1 block font-serif text-base sm:text-lg italic text-[#C5A059]">
+            Nuestra Boda
+          </span>
+
+          <h2 class="relative mt-1.5 font-serif text-2xl sm:text-3xl font-normal tracking-wide text-[#233120] uppercase leading-tight">
+            Ricardo <span class="italic text-[#C5A059]">&</span> Kiara
+          </h2>
+
+          <div class="relative mx-auto my-2.5 h-px w-20 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent"></div>
+
+          <p class="relative font-serif text-xs sm:text-sm italic text-[#4A5D45]">
+            Viernes, 2 de Abril de 2027
+          </p>
+        </div>
+
+        <!-- Cuerpo del Sobre (Se desliza suavemente hacia abajo cuando la tarjeta sube) -->
+        <div id="intro-envelope-shell" class="absolute inset-0 z-20">
+          <!-- Interior del sobre -->
+          <div class="absolute inset-0 z-10 rounded-2xl border border-[#C5A059]/60 bg-[#EFEAD8] shadow-lg"></div>
+
+          <!-- Bolsillo frontal del sobre (pliegues laterales e inferior en SVG sin filtros pesados) -->
+          <svg
+            class="pointer-events-none absolute inset-0 z-30 h-full w-full rounded-2xl overflow-hidden"
+            viewBox="0 0 350 235"
+            preserveAspectRatio="none"
+          >
+            <!-- Pliegue izquierdo -->
+            <polygon points="0,0 175,126 0,235" fill="#FAF8F0" stroke="#DCD888" stroke-width="1" />
+            <!-- Pliegue derecho -->
+            <polygon points="350,0 175,126 350,235" fill="#F5F1E3" stroke="#DCD888" stroke-width="1" />
+            <!-- Pliegue inferior principal -->
+            <polygon points="0,235 175,112 350,235" fill="#FFFFFF" stroke="#C5A059" stroke-width="1.4" />
+            <!-- Filete dorado interior en el pliegue inferior -->
+            <polyline points="14,235 175,122 336,235" fill="none" stroke="#E6DEA6" stroke-width="1" />
+          </svg>
+
+          <!-- Borde exterior dorado del sobre -->
+          <div class="pointer-events-none absolute inset-0 z-30 rounded-2xl border-2 border-[#C5A059]/75"></div>
+
+          <!-- Solapa superior que se abre con fluidez a 60fps -->
+          <div id="intro-envelope-flap" class="pointer-events-none absolute inset-x-0 top-0 z-40 h-[132px] sm:h-[150px]">
+            <svg class="h-full w-full overflow-visible" viewBox="0 0 350 150" preserveAspectRatio="none">
+              <polygon
+                points="0,0 350,0 175,142"
+                fill="#FFFFFF"
+                stroke="#C5A059"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <polyline
+                points="16,4 175,130 334,4"
+                fill="none"
+                stroke="#DCD888"
+                stroke-width="1.1"
+              />
+            </svg>
+          </div>
+
+          <!-- Sello discreto verde y dorado con monograma estilizado R & K -->
+          <div
+            id="intro-wax-seal"
+            class="absolute left-1/2 top-[56%] z-50 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full border border-[#FFF394] bg-gradient-to-br from-[#DCD888] via-[#C5A059] to-[#9E7B36] shadow-md"
+          >
+            <div class="relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-[#FAF8F0]/70 bg-gradient-to-b from-[#2C3E28] to-[#1A2617]">
+              <span class="pointer-events-none absolute inset-1 rounded-full border border-[#C5A059]/40"></span>
+              <span class="relative flex items-center justify-center font-serif italic text-[#FFF394] leading-none select-none">
+                <span class="text-[11px] sm:text-xs">R</span>
+                <span class="mx-[2px] text-[9px] sm:text-[10px] text-[#C5A059] not-italic">&</span>
+                <span class="text-[11px] sm:text-xs">K</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partículas de destello dorado al abrirse la carta -->
+        <div id="intro-sparkles" class="pointer-events-none absolute inset-0 z-50">
+          <span class="intro-sparkle" style="--tx: -95px; --ty: -85px;"></span>
+          <span class="intro-sparkle" style="--tx: 95px; --ty: -80px; animation-delay: 40ms;"></span>
+          <span class="intro-sparkle" style="--tx: -120px; --ty: -25px; animation-delay: 80ms;"></span>
+          <span class="intro-sparkle" style="--tx: 120px; --ty: -20px; animation-delay: 60ms;"></span>
+          <span class="intro-sparkle" style="--tx: -55px; --ty: -115px; animation-delay: 110ms;"></span>
+          <span class="intro-sparkle" style="--tx: 60px; --ty: -110px; animation-delay: 90ms;"></span>
+          <span class="intro-sparkle" style="--tx: 0px; --ty: -130px; animation-delay: 30ms;"></span>
+          <span class="intro-sparkle" style="--tx: -80px; --ty: 45px; animation-delay: 70ms;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador inferior para tocar la carta -->
+    <div id="intro-bottom-prompt" class="mt-8 sm:mt-10 text-center transition-all duration-500">
+      <p class="font-serif text-base sm:text-lg italic text-[#384934] animate-pulse">
+        Toca la carta para abrir tu invitación
+      </p>
+    </div>
+  </div>
+
   <!-- Fondo general con matiz crema cálido de la paleta -->
   <div class="min-h-screen bg-[#FAF8F0] text-[#233120]">
     <main class="mx-auto max-w-lg pb-24">
@@ -85,7 +229,6 @@ const itineraryList = isRicardoKiara
       <div
         id="hero-arch-container"
         class="relative h-[535px] sm:h-[585px] w-full overflow-hidden rounded-t-full"
-        style="-webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%); mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 94%);"
       >
         {heroSlides.map((slide, index) => (
           <img
@@ -101,6 +244,11 @@ const itineraryList = isRicardoKiara
             ]}
           />
         ))}
+        <!-- Difuminado inferior hacia el tono crema de fondo (sin usar máscaras que se borren al cambiar de ventana) -->
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[38%]"
+          style="background: linear-gradient(to top, #FAF8F0 18%, rgba(250, 248, 240, 0.78) 52%, rgba(250, 248, 240, 0) 100%);"
+        ></div>
       </div>
 
       <div class="px-5">
@@ -927,8 +1075,6 @@ const itineraryList = isRicardoKiara
           </div>
         </div>
       </section>
-        </div>
-      </section>
       </div>
 
     </main>
@@ -940,6 +1086,84 @@ const itineraryList = isRicardoKiara
 </Layout>
 
 <script define:vars={{ targetIsoDate: coupleNames.targetIsoDate }}>
+  // =========================================================================
+  // Pantalla Inicial Interactiva: Apertura de Carta y Transición a Invitación
+  // =========================================================================
+  const introOverlay = document.getElementById('invitation-intro-overlay');
+  const introStage = document.getElementById('intro-envelope-stage');
+  const introEnvelopeBtn = document.getElementById('intro-envelope-btn');
+  const introFlap = document.getElementById('intro-envelope-flap');
+  const introTopHeader = document.getElementById('intro-top-header');
+  const introBottomPrompt = document.getElementById('intro-bottom-prompt');
+
+  let introStep = 0; // 0 = cerrada, 1 = abriendo / mostrando tarjeta, 2 = desvaneciendo
+
+  if (introOverlay) {
+    document.body.style.overflow = 'hidden';
+  }
+
+  function ensureVisibleSectionsRevealed() {
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    document.querySelectorAll('.inv-reveal').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh * 0.95 && rect.bottom > 0) {
+        el.classList.add('is-visible');
+      }
+    });
+  }
+
+  function dismissIntroOverlay() {
+    if (!introOverlay || introStep === 2) return;
+    introStep = 2;
+
+    introOverlay.classList.add('opacity-0', 'pointer-events-none');
+    document.body.style.overflow = '';
+    ensureVisibleSectionsRevealed();
+
+    setTimeout(() => {
+      introOverlay.remove();
+      ensureVisibleSectionsRevealed();
+    }, 750);
+  }
+
+  // Asegurar que al volver desde otra ventana o pestaña todos los bloques visibles estén dibujados
+  window.addEventListener('focus', ensureVisibleSectionsRevealed);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      ensureVisibleSectionsRevealed();
+    }
+  });
+
+  function openInvitationEnvelope() {
+    if (!introOverlay || !introStage || introStep !== 0) return;
+    introStep = 1;
+
+    // Ejecutar toda la animación en un solo cambio de clase en GPU (60fps sin cambios de z-index intermedios)
+    requestAnimationFrame(() => {
+      introTopHeader?.classList.add('opacity-0', '-translate-y-2');
+      introBottomPrompt?.classList.add('opacity-0', 'translate-y-2');
+      introStage.classList.add('intro-envelope-opened');
+    });
+
+    // Iniciar música unos milisegundos después para no interrumpir el primer cuadro de la animación
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('wedding:start-music'));
+    }, 180);
+
+    // Mantener la tarjeta visible el tiempo suficiente para leerla con calma antes de pasar a la invitación
+    setTimeout(() => {
+      dismissIntroOverlay();
+    }, 4200);
+  }
+
+  introEnvelopeBtn?.addEventListener('click', openInvitationEnvelope);
+  introEnvelopeBtn?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openInvitationEnvelope();
+    }
+  });
+
   // Animación de aparición suave conforme bajas
   const revealElements = document.querySelectorAll('.inv-reveal');
   if ('IntersectionObserver' in window) {

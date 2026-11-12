@@ -35,7 +35,7 @@
       <div class="flex items-center justify-between gap-2 w-full">
         <span class="text-[9px] font-bold tracking-[0.22em] text-[#DCD888] uppercase">Música</span>
         <span id="current-track-mini-label" class="max-w-[105px] sm:max-w-[120px] truncate font-serif text-xs sm:text-sm font-bold text-[#FAF8F0]">
-          Canon in D
+          The Princess
         </span>
       </div>
 
@@ -129,10 +129,10 @@
       </div>
 
       <h4 id="panel-track-title" class="mt-2 font-serif text-base font-bold text-[#FAF8F0]">
-        Canon in D
+        The Princess
       </h4>
       <p id="panel-track-artist" class="text-[11px] text-[#E6DEA6]/80 truncate px-2">
-        Johann Pachelbel (Piano & Cuerdas)
+        Brandon Boone
       </p>
     </div>
 
@@ -205,7 +205,7 @@
 
       <div class="mt-0.5 flex justify-between text-[10px] text-[#E6DEA6]/75 font-mono px-1">
         <span id="panel-time-current">0:00</span>
-        <span id="panel-time-duration">0:20</span>
+        <span id="panel-time-duration">0:40</span>
       </div>
     </div>
 
@@ -263,10 +263,6 @@
     <div class="mt-3 border-t border-[#C5A059]/25 pt-2">
       <span class="block text-[9px] font-bold tracking-[0.2em] text-[#DCD888] uppercase">Lista de canciones</span>
       <div id="playlist-container" class="mt-1.5 space-y-1">
-        <!-- Renderizado dinámicamente con JS -->
-      </div>
-    </div>
-  </div>
         <!-- Renderizado dinámicamente con JS -->
       </div>
     </div>
@@ -429,6 +425,13 @@
 <script>
   const tracks = [
     {
+      title: 'The Princess',
+      artist: 'Brandon Boone',
+      duration: '0:40',
+      maxDuration: 40,
+      src: '/music/the-princess.mp3?v=4',
+    },
+    {
       title: 'Canon in D',
       artist: 'Johann Pachelbel (Piano & Cuerdas)',
       duration: '0:20',
@@ -524,14 +527,47 @@
     if (miniProgress) miniProgress.style.width = widthStr;
   }
 
+  function getEffectiveDuration() {
+    if (!audio || !audio.duration || isNaN(audio.duration)) return 0;
+    const track = tracks[currentTrackIndex];
+    if (track && track.maxDuration) {
+      return Math.min(audio.duration, track.maxDuration);
+    }
+    return audio.duration;
+  }
+
   function updateSmoothProgress() {
-    if (!audio || !audio.duration || isNaN(audio.duration)) return;
-    const progress = (audio.currentTime / audio.duration) * 100;
+    const effDuration = getEffectiveDuration();
+    if (!audio || !effDuration) return;
+
+    const track = tracks[currentTrackIndex];
+    if (track && track.maxDuration) {
+      if (audio.currentTime >= track.maxDuration - 0.15) {
+        audio.volume = 1;
+        const next = (currentTrackIndex + 1) % tracks.length;
+        selectTrack(next, true);
+        return;
+      }
+      // Desvanecimiento progresivo durante los últimos 4 segundos
+      const fadeDuration = 4.0;
+      const remaining = Math.max(0, track.maxDuration - 0.15 - audio.currentTime);
+      if (remaining <= fadeDuration) {
+        const ratio = remaining / fadeDuration;
+        audio.volume = Math.max(0, Math.min(1, Math.pow(ratio, 1.8)));
+      } else if (audio.volume !== 1) {
+        audio.volume = 1;
+      }
+    } else if (audio.volume !== 1) {
+      audio.volume = 1;
+    }
+
+    const progress = (audio.currentTime / effDuration) * 100;
     setProgressWidth(progress);
 
     if (panelTimeCurrent) {
-      const mins = Math.floor(audio.currentTime / 60);
-      const secs = Math.floor(audio.currentTime % 60);
+      const clampedTime = Math.min(audio.currentTime, effDuration);
+      const mins = Math.floor(clampedTime / 60);
+      const secs = Math.floor(clampedTime % 60);
       const formatted = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
       if (formatted !== lastTimeStr) {
         lastTimeStr = formatted;
@@ -711,24 +747,26 @@
 
   // Progreso interactivo al tocar cualquier punto del camino hacia la luna
   panelProgressBarWrap?.addEventListener('click', (e) => {
-    if (!audio || !audio.duration) return;
+    const effDuration = getEffectiveDuration();
+    if (!audio || !effDuration) return;
     const rect = panelProgressBarWrap.getBoundingClientRect();
     const clickPos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    audio.currentTime = clickPos * audio.duration;
+    audio.currentTime = clickPos * effDuration;
     updateSmoothProgress();
   });
 
   if (audio) {
     audio.addEventListener('timeupdate', () => {
-      if (!isPlaying) {
+      if (!isPlaying || document.hidden) {
         updateSmoothProgress();
       }
     });
 
     audio.addEventListener('loadedmetadata', () => {
-      if (audio.duration && !isNaN(audio.duration)) {
-        const mins = Math.floor(audio.duration / 60);
-        const secs = Math.floor(audio.duration % 60);
+      const effDuration = getEffectiveDuration();
+      if (effDuration > 0) {
+        const mins = Math.floor(effDuration / 60);
+        const secs = Math.floor(effDuration % 60);
         if (panelTimeDuration) {
           panelTimeDuration.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
@@ -750,4 +788,11 @@
   }
 
   loadTrack(0);
+
+  // Iniciar música automáticamente cuando el invitado abre la carta de bienvenida
+  window.addEventListener('wedding:start-music', () => {
+    if (!isPlaying) {
+      playAudio();
+    }
+  });
 </script>

@@ -10,7 +10,6 @@
 
   body {
     @apply antialiased text-gray-900 bg-editorial-bg;
-    overscroll-behavior-y: none;
   }
 }
 
@@ -23,11 +22,10 @@
   scrollbar-width: none;
 }
 
-/* Animaciones Editoriales Ligeras (60fps en móvil, solo GPU transform + opacity) */
+/* Animaciones Editoriales Ligeras (se liberan las capas al terminar para evitar pérdida de texturas al cambiar de ventana) */
 .inv-reveal {
   opacity: 0;
-  transform: translate3d(0, 24px, 0);
-  backface-visibility: hidden;
+  transform: translateY(24px);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -35,7 +33,7 @@
 
 .inv-reveal.is-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: none;
 }
 
 /* Despliegue suave tipo acordeón para opciones de calendario y vestimenta */
@@ -43,7 +41,7 @@
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transform: translate3d(0, -6px, 0);
+  transform: translateY(-6px);
   pointer-events: none;
   transition:
     grid-template-rows 0.38s cubic-bezier(0.22, 1, 0.36, 1),
@@ -55,7 +53,7 @@
 .cal-collapse-wrapper.is-open {
   grid-template-rows: 1fr;
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: none;
   pointer-events: auto;
   margin-top: 1rem;
 }
@@ -66,8 +64,7 @@
 
 .inv-stagger-item {
   opacity: 0;
-  transform: translate3d(0, 18px, 0);
-  backface-visibility: hidden;
+  transform: translateY(18px);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -76,7 +73,7 @@
 .is-visible .inv-stagger-item,
 .inv-stagger-item.is-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: none;
 }
 
 .inv-line-grow {
@@ -90,7 +87,129 @@
   transform: scaleX(1);
 }
 
-.hero-crossfade-slide {
+/* ==========================================================================
+   Pantalla Inicial Interactiva: Carta / Sobre de Invitación (60fps GPU)
+   ========================================================================== */
+@keyframes introEnvelopeFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+
+.intro-envelope-float {
+  animation: introEnvelopeFloat 3.6s ease-in-out infinite;
   backface-visibility: hidden;
-  will-change: opacity, transform;
+  will-change: transform;
+}
+
+.intro-envelope-opened .intro-envelope-float {
+  animation-play-state: paused;
+}
+
+/* Solapa superior del sobre (GPU 2D matrix transform sin filtros pesados) */
+#intro-envelope-flap {
+  transform-origin: top center;
+  transform: scaleY(1);
+  backface-visibility: hidden;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.intro-envelope-opened #intro-envelope-flap {
+  transform: scaleY(-0.92);
+}
+
+/* Medallón / Sello verde y dorado central */
+#intro-wax-seal {
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  opacity: 1;
+  backface-visibility: hidden;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease-out;
+  will-change: transform, opacity;
+}
+
+.intro-envelope-opened #intro-wax-seal {
+  transform: translate3d(-50%, -50%, 0) scale(1.22);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Tarjeta interior ("Estás invitado a...") que emerge del sobre */
+#intro-letter-card {
+  transform: translate3d(0, 26px, 0) scale(0.92);
+  opacity: 0;
+  backface-visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.38s,
+    opacity 0.7s ease-out 0.38s;
+  will-change: transform, opacity;
+}
+
+.intro-envelope-opened #intro-letter-card {
+  transform: translate3d(0, -32px, 0) scale(1.03);
+  opacity: 1;
+}
+
+@media (min-width: 640px) {
+  .intro-envelope-opened #intro-letter-card {
+    transform: translate3d(0, -38px, 0) scale(1.06);
+  }
+}
+
+/* Cuerpo del sobre que baja suavemente para dejar lucir la tarjeta */
+#intro-envelope-shell {
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 1;
+  backface-visibility: hidden;
+  transition:
+    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.38s,
+    opacity 0.95s ease-out 0.38s;
+  will-change: transform, opacity;
+}
+
+.intro-envelope-opened #intro-envelope-shell {
+  transform: translate3d(0, 46px, 0) scale(0.95);
+  opacity: 0.28;
+}
+
+/* Destellos dorados ligeros (sin box-shadow pesado) */
+.intro-sparkle {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #FFF394;
+  border: 1px solid #C5A059;
+  opacity: 0;
+  pointer-events: none;
+  backface-visibility: hidden;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  will-change: transform, opacity;
+}
+
+.intro-envelope-opened .intro-sparkle {
+  animation: introSparkleBurst 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes introSparkleBurst {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(0.2);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate3d(calc(-50% + var(--tx) * 0.5), calc(-50% + var(--ty) * 0.5), 0) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(-50% + var(--tx)), calc(-50% + var(--ty)), 0) scale(0.2);
+  }
 }
