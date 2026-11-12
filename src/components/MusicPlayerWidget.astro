@@ -46,7 +46,7 @@
           <!-- Estela de destello dorado -->
           <div
             id="mini-track-progress"
-            class="firefly-trail relative h-full w-0 rounded-full transition-all duration-150"
+            class="firefly-trail relative h-full w-0 rounded-full"
           >
             <!-- Partículas de polvo dorado en el camino -->
             <span class="sparkle-dot sparkle-1"></span>
@@ -153,7 +153,7 @@
           <!-- Camino iluminado por el destello dorado de la luciérnaga -->
           <div
             id="panel-track-progress"
-            class="firefly-trail relative h-full w-0 rounded-full transition-all duration-150"
+            class="firefly-trail relative h-full w-0 rounded-full"
           >
             <!-- Destellos dorados flotando en la estela -->
             <span class="sparkle-dot sparkle-1"></span>
@@ -514,22 +514,54 @@
     });
   }
 
-  let lastWidthStr = '';
+  let animFrameId = null;
   let lastTimeStr = '';
 
   function setProgressWidth(percent) {
     const clamped = Math.max(0, Math.min(100, percent));
-    const widthStr = `${clamped.toFixed(1)}%`;
-    if (widthStr === lastWidthStr) return;
-    lastWidthStr = widthStr;
+    const widthStr = `${clamped}%`;
     if (panelProgress) panelProgress.style.width = widthStr;
     if (miniProgress) miniProgress.style.width = widthStr;
+  }
+
+  function updateSmoothProgress() {
+    if (!audio || !audio.duration || isNaN(audio.duration)) return;
+    const progress = (audio.currentTime / audio.duration) * 100;
+    setProgressWidth(progress);
+
+    if (panelTimeCurrent) {
+      const mins = Math.floor(audio.currentTime / 60);
+      const secs = Math.floor(audio.currentTime % 60);
+      const formatted = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      if (formatted !== lastTimeStr) {
+        lastTimeStr = formatted;
+        panelTimeCurrent.textContent = formatted;
+      }
+    }
+
+    if (isPlaying) {
+      animFrameId = requestAnimationFrame(updateSmoothProgress);
+    }
+  }
+
+  function startSmoothLoop() {
+    if (animFrameId) cancelAnimationFrame(animFrameId);
+    animFrameId = requestAnimationFrame(updateSmoothProgress);
+  }
+
+  function stopSmoothLoop() {
+    if (animFrameId) {
+      cancelAnimationFrame(animFrameId);
+      animFrameId = null;
+    }
   }
 
   function loadTrack(index, shouldLoadSource = false) {
     currentTrackIndex = index;
     const track = tracks[currentTrackIndex];
     if (!track || !audio) return;
+
+    stopSmoothLoop();
 
     if (shouldLoadSource) {
       audio.src = track.src;
@@ -561,12 +593,14 @@
       miniIconPause?.classList.remove('hidden');
       panelIconPlay?.classList.add('hidden');
       panelIconPause?.classList.remove('hidden');
+      startSmoothLoop();
     } else {
       container?.classList.remove('is-playing-firefly');
       miniIconPlay?.classList.remove('hidden');
       miniIconPause?.classList.add('hidden');
       panelIconPlay?.classList.remove('hidden');
       panelIconPause?.classList.add('hidden');
+      stopSmoothLoop();
     }
   }
 
@@ -681,21 +715,13 @@
     const rect = panelProgressBarWrap.getBoundingClientRect();
     const clickPos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     audio.currentTime = clickPos * audio.duration;
+    updateSmoothProgress();
   });
 
   if (audio) {
     audio.addEventListener('timeupdate', () => {
-      if (!audio.duration || isNaN(audio.duration)) return;
-      const progress = (audio.currentTime / audio.duration) * 100;
-      setProgressWidth(progress);
-      if (panelTimeCurrent) {
-        const mins = Math.floor(audio.currentTime / 60);
-        const secs = Math.floor(audio.currentTime % 60);
-        const formatted = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        if (formatted !== lastTimeStr) {
-          lastTimeStr = formatted;
-          panelTimeCurrent.textContent = formatted;
-        }
+      if (!isPlaying) {
+        updateSmoothProgress();
       }
     });
 
