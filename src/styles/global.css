@@ -95,7 +95,7 @@
     transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(0, -5px, 0);
+    transform: translate3d(0, -4px, 0);
   }
 }
 
@@ -109,12 +109,125 @@
   animation-play-state: paused;
 }
 
+/* Vuelo orgánico y dinámico de las 4 luciérnagas ilustradas (60fps GPU) */
+@keyframes introFireflyFlight1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate3d(22px, -16px, 0) rotate(10deg) scale(1.06);
+  }
+  50% {
+    transform: translate3d(34px, 4px, 0) rotate(-6deg) scale(0.96);
+  }
+  75% {
+    transform: translate3d(12px, 14px, 0) rotate(8deg) scale(1.04);
+  }
+}
+
+@keyframes introFireflyFlight2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate3d(-24px, 14px, 0) rotate(-11deg) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-38px, -10px, 0) rotate(7deg) scale(0.95);
+  }
+  75% {
+    transform: translate3d(-14px, -18px, 0) rotate(-8deg) scale(1.06);
+  }
+}
+
+@keyframes introFireflyFlight3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate3d(26px, -18px, 0) rotate(12deg) scale(1.07);
+  }
+  50% {
+    transform: translate3d(44px, -6px, 0) rotate(-8deg) scale(0.94);
+  }
+  75% {
+    transform: translate3d(18px, 12px, 0) rotate(6deg) scale(1.03);
+  }
+}
+
+@keyframes introFireflyFlight4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate3d(-28px, -15px, 0) rotate(-12deg) scale(1.06);
+  }
+  50% {
+    transform: translate3d(-42px, 8px, 0) rotate(9deg) scale(0.95);
+  }
+  75% {
+    transform: translate3d(-16px, -22px, 0) rotate(-7deg) scale(1.05);
+  }
+}
+
+.intro-firefly-1 {
+  animation: introFireflyFlight1 5.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.intro-firefly-2 {
+  animation: introFireflyFlight2 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.intro-firefly-3 {
+  animation: introFireflyFlight3 4.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.intro-firefly-4 {
+  animation: introFireflyFlight4 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Destello cálido suave en los foquitos de la guirnalda superior y luces de pantano */
+@keyframes introWarmPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate3d(-50%, -50%, 0) scale(0.85);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate3d(-50%, calc(-50% - 7px), 0) scale(1.22);
+  }
+}
+
+.intro-fairy-bulb {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 246, 185, 0.75) 0%, rgba(246, 207, 101, 0.28) 55%, rgba(251, 247, 241, 0) 100%);
+  transform: translate3d(-50%, -50%, 0);
+  animation: introWarmPulse 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.intro-ambient-glow {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(244, 198, 88, 0.78) 0%, rgba(244, 198, 88, 0.28) 48%, rgba(251, 247, 241, 0) 100%);
+  transform: translate3d(-50%, -50%, 0);
+  animation: introWarmPulse 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
 /* Solapa superior del sobre (GPU 2D matrix transform sin filtros pesados) */
 #intro-envelope-flap {
   transform-origin: top center;
   transform: scaleY(1);
   backface-visibility: hidden;
-  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
   will-change: transform;
 }
 
@@ -128,8 +241,8 @@
   opacity: 1;
   backface-visibility: hidden;
   transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.4s ease-out;
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.6s ease-out;
   will-change: transform, opacity;
 }
 
@@ -139,15 +252,15 @@
   pointer-events: none;
 }
 
-/* Tarjeta interior ("Estás invitado a...") que emerge del sobre */
+/* Tarjeta interior ("Estás invitado a...") que emerge del sobre con calma */
 #intro-letter-card {
-  transform: translate3d(0, 26px, 0) scale(0.92);
+  transform: translate3d(0, 28px, 0) scale(0.92);
   opacity: 0;
   backface-visibility: hidden;
   pointer-events: none;
   transition:
-    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.38s,
-    opacity 0.7s ease-out 0.38s;
+    transform 1.85s cubic-bezier(0.22, 1, 0.36, 1) 0.72s,
+    opacity 1.15s ease-out 0.72s;
   will-change: transform, opacity;
 }
 
@@ -168,8 +281,8 @@
   opacity: 1;
   backface-visibility: hidden;
   transition:
-    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.38s,
-    opacity 0.95s ease-out 0.38s;
+    transform 1.85s cubic-bezier(0.22, 1, 0.36, 1) 0.72s,
+    opacity 1.45s ease-out 0.72s;
   will-change: transform, opacity;
 }
 
@@ -196,7 +309,7 @@
 }
 
 .intro-envelope-opened .intro-sparkle {
-  animation: introSparkleBurst 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: introSparkleBurst 1.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
 }
 
 @keyframes introSparkleBurst {
